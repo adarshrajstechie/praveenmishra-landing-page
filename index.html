@@ -25,7 +25,8 @@
       --bg-card: #ffffff;
       --bg-card-light: #f1f3f5;
       --color-gold: #b8860b; /* Brand yellow/gold color */
-      --color-gold-hover: #996f00;
+      --color-gold-dark: #996f00; /* Darker shade for better readability */
+      --color-gold-hover: #7a5800;
       --color-text: #1a1a1a;
       --color-muted: #555555;
       --border-color: rgba(184, 134, 11, 0.3);
@@ -154,7 +155,7 @@
     .header-phone {
       font-weight: 700;
       font-size: 0.95rem;
-      color: var(--color-gold);
+      color: var(--color-gold-dark); /* Darker shade for easy identification */
       display: flex;
       align-items: center;
       gap: 8px;
@@ -711,17 +712,13 @@
       .brand-logo-img {
         height: 60px;
       }
+      /* Hide header phone number on mobile and tablet views */
+      .header-phones {
+        display: none;
+      }
     }
 
     @media (max-width: 768px) {
-      .header-phones {
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 4px;
-      }
-      .header-phone {
-        font-size: 0.85rem;
-      }
       .feature-content h2 {
         font-size: 1.8rem;
       }
