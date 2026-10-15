@@ -6,6 +6,10 @@
   <title>Mishra Bank Freeze & Lien Solution | Legal Representation Bengaluru</title>
   <meta name="description" content="Expert legal assistance for Bank Account Freeze and Cyber Cell Lien Removal in Bengaluru. Professional High Court Legal Representation." />
   
+  <!-- Favicon / Site Icon -->
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
+
   <!-- Fonts: Inter for Body, Times New Roman for Titles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,42 +103,49 @@
     }
 
     /* =====================================================
-       HEADER
+       HEADER (UNFIXED / SCROLLS NORMALLY)
     ===================================================== */
     header {
-      background-color: rgba(17, 17, 17, 0.95);
-      position: sticky;
-      top: 0;
+      background-color: rgba(17, 17, 17, 0.98);
+      position: relative; /* Unfixed header */
+      top: auto;
       z-index: 1000;
       border-bottom: 1px solid var(--border-color);
-      backdrop-filter: blur(8px);
+      padding: 12px 0;
     }
 
     .header-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 0;
+      gap: 20px;
     }
 
     .logo-box {
       display: flex;
       align-items: center;
+      padding: 4px 0;
+      overflow: visible;
     }
 
     .brand-logo-img {
-      height: 48px;
+      height: 80px; /* Increased height for full clarity of bottom text */
       width: auto;
       object-fit: contain;
       display: block;
+      transform: scale(1.15); /* Zoomed for legibility */
+      transform-origin: left center;
+      transition: transform 0.3s ease;
     }
 
     .header-phone {
       font-weight: 600;
+      font-size: 1.1rem;
       color: var(--color-gold);
       display: flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
     }
 
     /* =====================================================
@@ -267,7 +278,7 @@
     }
 
     /* =====================================================
-       ALTERNATING FEATURE SECTIONS (IMAGES FROM GOOGLE)
+       ALTERNATING FEATURE SECTIONS
     ===================================================== */
     .feature-row-section {
       padding: 80px 0;
@@ -286,7 +297,6 @@
       margin-bottom: 0;
     }
 
-    /* Alternating layout configuration */
     .feature-row.alternate {
       direction: rtl;
     }
@@ -549,7 +559,7 @@
     }
 
     /* =====================================================
-       RESPONSIVE DESIGN (TABLETS & MOBILE)
+       RESPONSIVE DESIGN (MOBILE, TABLET, DESKTOP)
     ===================================================== */
     @media (max-width: 992px) {
       .hero-grid, .contact-grid, .feature-row {
@@ -562,20 +572,31 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 25px;
       }
+      .brand-logo-img {
+        height: 68px;
+        transform: scale(1.1);
+      }
     }
 
     @media (max-width: 600px) {
+      header {
+        padding: 10px 0;
+      }
+      .header-container {
+        justify-content: space-between;
+      }
+      .brand-logo-img {
+        height: 58px;
+        transform: scale(1.08);
+      }
       .header-phone {
-        display: none;
+        font-size: 0.9rem;
       }
       .hero h1 {
         font-size: 2rem;
       }
       .form-card {
         padding: 22px;
-      }
-      .brand-logo-img {
-        height: 38px;
       }
       .fixed-actions-right {
         bottom: 15px;
@@ -590,11 +611,21 @@
         height: 22px;
       }
     }
+
+    @media (max-width: 400px) {
+      .brand-logo-img {
+        height: 50px;
+        transform: scale(1);
+      }
+      .header-phone {
+        font-size: 0.82rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER (UNFIXED & RESPONSIVE) -->
   <header>
     <div class="container header-container">
       <div class="logo-box">
@@ -657,14 +688,14 @@
     </div>
   </section>
 
-  <!-- ALTERNATING IMAGE & CONTENT ROWS (DIRECTLY BELOW HERO) -->
+  <!-- ALTERNATING FEATURE SECTIONS -->
   <section class="feature-row-section">
     <div class="container">
       
       <!-- Row 1: Image on Left -->
       <div class="feature-row">
         <div class="feature-img-box">
-          <img src="https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=1000&q=80" alt="Legal Consultation and Representation" loading="lazy" />
+          <img src="image-1.webp" alt="Legal Consultation and Representation" loading="lazy" />
         </div>
         <div class="feature-content">
           <h2>Professional Representation for <span>Cyber Cell Freezes</span></h2>
@@ -673,10 +704,10 @@
         </div>
       </div>
 
-      <!-- Row 2: Image on Right (Alternating Structure) -->
+      <!-- Row 2: Image on Right -->
       <div class="feature-row alternate">
         <div class="feature-img-box">
-          <img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1000&q=80" alt="High Court Litigation and Documentation" loading="lazy" />
+          <img src="image-2.webp" alt="High Court Litigation and Documentation" loading="lazy" />
         </div>
         <div class="feature-content">
           <h2>High Court Redressal & <span>Legal Compliance</span></h2>
@@ -815,14 +846,12 @@
 
   <!-- FIXED ACTION BUTTONS (BOTTOM RIGHT) -->
   <div class="fixed-actions-right">
-    <!-- Call Button -->
     <a href="tel:886768352" class="action-btn btn-call" aria-label="Call Client">
       <svg viewBox="0 0 32 32">
         <path d="M27.01 23.49l-1.75 1.75a5 5 0 01-5.2 1.18c-1.97-.69-4.87-2.36-8.44-5.93S6.39 14.03 5.69 12.06a5 5 0 011.18-5.2l1.75-1.75a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.41l-1.81 1.81a1 1 0 00-.08 1.32 40.74 40.74 0 004.08 4.58 40.74 40.74 0 004.58 4.08 1 1 0 001.32-.08l1.81-1.81a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.42z"/>
       </svg>
     </a>
 
-    <!-- WhatsApp Button -->
     <a href="https://wa.me/91886768352?text=Hello%2C%20I%20need%20legal%20assistance%20regarding%20my%20frozen%20bank%20account." target="_blank" class="action-btn btn-whatsapp" aria-label="WhatsApp Us">
       <svg viewBox="0 0 32 32">
         <path d="M16 2a13 13 0 00-11 19.9L3 29l7.3-1.9A13 13 0 1016 2zm0 23.8a10.8 10.8 0 01-5.5-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4A10.8 10.8 0 1116 25.8zm5.9-8.1c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8 8 0 01-2.4-1.5 8.9 8.9 0 01-1.7-2.1c-.2-.3 0-.5.2-.6s.3-.4.5-.6a2.3 2.3 0 00.3-.5.6.6 0 000-.6c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.7 3.7 0 00-1.1 2.7 6.4 6.4 0 001.3 3.4 14.6 14.6 0 005.6 4.9c2.3 1 2.8.8 3.3.8a2.8 2.8 0 001.9-1.3 2.3 2.3 0 00.2-1.3c-.2-.1-.5-.2-.8-.4z"/>
@@ -834,7 +863,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
     (function(){
-      // Initialize EmailJS with your credentials
       emailjs.init("YOUR_PUBLIC_KEY"); 
     })();
 
@@ -848,7 +876,6 @@
       submitBtn.innerText = 'Sending Request...';
       formStatus.innerText = '';
 
-      // Form Data Payload targeting adarshrajstechie@gmail.com
       const templateParams = {
         from_name: document.getElementById('fullName').value,
         phone: document.getElementById('phone').value,
@@ -857,7 +884,6 @@
         to_email: 'adarshrajstechie@gmail.com'
       };
 
-      // Simulated fast-sending handler for GTmetrix / Performance optimization
       setTimeout(function() {
         formStatus.style.color = '#e6b452';
         formStatus.innerText = 'Thank you! Your request has been submitted successfully. Our legal team will contact you shortly.';
