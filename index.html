@@ -17,21 +17,18 @@
 
   <style>
     /* =====================================================
-       GLOBAL RESET & BRAND STYLES
-       Primary/Brand: #111111
-       Secondary/Accent: #e6b452
-       Title Font: 'Times New Roman', Times, serif
-       Normal Font: 'Inter', sans-serif
+       GLOBAL RESET & BRAND STYLES (LIGHT THEME)
     ===================================================== */
     :root {
-      --bg-primary: #111111;
-      --bg-card: #181818;
-      --bg-card-light: #222222;
-      --color-gold: #e6b452;
-      --color-gold-hover: #d4a242;
-      --color-text: #f0f0f0;
-      --color-muted: #a0a0a0;
-      --border-color: rgba(230, 180, 82, 0.25);
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-card: #ffffff;
+      --bg-card-light: #f1f3f5;
+      --color-gold: #b8860b; /* Brand yellow/gold color */
+      --color-gold-hover: #996f00;
+      --color-text: #1a1a1a;
+      --color-muted: #555555;
+      --border-color: rgba(184, 134, 11, 0.3);
       --font-title: 'Times New Roman', Times, Georgia, serif;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -73,7 +70,7 @@
     .btn {
       display: inline-block;
       background-color: var(--color-gold);
-      color: #000000;
+      color: #ffffff;
       font-weight: 700;
       font-size: 0.95rem;
       padding: 14px 28px;
@@ -99,19 +96,30 @@
 
     .btn-outline:hover {
       background-color: var(--color-gold);
-      color: #000000;
+      color: #ffffff;
     }
 
     /* =====================================================
-       HEADER
+       HERO & HEADER COMBINED WRAPPER (Z-AXIS BACKGROUND CONTINUITY)
+    ===================================================== */
+    .hero-header-wrapper {
+      position: relative;
+      background: linear-gradient(180deg, rgba(15,15,15,0.75) 0%, rgba(15,15,15,0.92) 100%), 
+                  url('cryptocurrency.webp') center/cover no-repeat;
+    }
+
+    /* =====================================================
+       HEADER (SEMI-TRANSPARENT WHITE OVERLAY ON Z-AXIS)
     ===================================================== */
     header {
-      background-color: rgba(17, 17, 17, 0.98);
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       position: relative;
-      top: auto;
-      z-index: 1000;
-      border-bottom: 1px solid var(--border-color);
+      z-index: 10;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.25);
       padding: 12px 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .header-container {
@@ -144,22 +152,29 @@
     }
 
     .header-phone {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.95rem;
       color: var(--color-gold);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       white-space: nowrap;
+    }
+
+    .header-phone svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
 
     /* =====================================================
        HERO SECTION
     ===================================================== */
     .hero {
-      padding: 80px 0 60px;
-      background: linear-gradient(180deg, rgba(17,17,17,0.85) 0%, rgba(17,17,17,1) 100%), 
-                  url('cryptocurrency.webp') center/cover no-repeat;
+      padding: 60px 0 60px;
+      color: #ffffff;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-grid {
@@ -171,7 +186,7 @@
 
     .hero-tag {
       display: inline-block;
-      color: var(--color-gold);
+      color: #e6b452;
       font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -187,12 +202,12 @@
     }
 
     .hero h1 span {
-      color: var(--color-gold);
+      color: #e6b452;
     }
 
     .hero p {
       font-size: 1.05rem;
-      color: var(--color-muted);
+      color: #dddddd;
       margin-bottom: 20px;
     }
 
@@ -207,33 +222,35 @@
       gap: 10px;
       margin-bottom: 12px;
       font-size: 0.95rem;
+      color: #f0f0f0;
     }
 
     .hero-features li::before {
       content: "✓";
-      color: var(--color-gold);
+      color: #e6b452;
       font-weight: bold;
     }
 
-    /* Lead Form Box */
+    /* Lead Form Box - LIGHT THEME WITH BRAND YELLOW BORDERS */
     .form-card {
-      background-color: var(--bg-card);
+      background-color: #ffffff;
       padding: 35px;
       border-radius: 8px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 1px solid var(--color-gold);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      color: #1a1a1a;
     }
 
     .form-card h3 {
       font-size: 1.8rem;
-      color: #ffffff;
-      margin-bottom: 10px;
+      color: #1a1a1a;
+      margin-bottom: 8px;
       text-align: center;
     }
 
     .form-card p {
       font-size: 0.85rem;
-      color: var(--color-muted);
+      color: #666666;
       text-align: center;
       margin-bottom: 25px;
     }
@@ -245,25 +262,32 @@
     .form-group label {
       display: block;
       font-size: 0.85rem;
+      font-weight: 600;
       margin-bottom: 6px;
-      color: #dddddd;
+      color: #333333;
     }
 
     .form-control {
       width: 100%;
       padding: 12px 15px;
-      background-color: var(--bg-primary);
-      border: 1px solid rgba(255,255,255,0.15);
+      background-color: #f8f9fa;
+      border: 1px solid var(--color-gold); /* Brand yellow border */
       border-radius: 4px;
-      color: #ffffff;
+      color: #1a1a1a;
       font-family: var(--font-body);
       font-size: 0.95rem;
       outline: none;
-      transition: border 0.3s ease;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .form-control::placeholder {
+      color: #888888;
     }
 
     .form-control:focus {
-      border-color: var(--color-gold);
+      border-color: var(--color-gold-hover);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.15);
     }
 
     textarea.form-control {
@@ -274,6 +298,14 @@
     .submit-btn {
       width: 100%;
       margin-top: 10px;
+      background-color: var(--color-gold);
+      color: #ffffff;
+      border: none;
+    }
+
+    .submit-btn:hover {
+      background-color: var(--color-gold-hover);
+      color: #ffffff;
     }
 
     .form-status {
@@ -283,7 +315,7 @@
     }
 
     /* =====================================================
-       FEATURE SECTIONS WITH PERFECT ASPECT RATIO (512x384 - 4:3)
+       FEATURE SECTIONS (LIGHT THEME, 4:3 RATIO IMAGES)
     ===================================================== */
     .feature-row-section {
       padding: 80px 0;
@@ -310,13 +342,12 @@
       direction: ltr;
     }
 
-    /* Fixed aspect ratio container preventing image cuts */
     .feature-img-box {
       width: 100%;
-      background-color: var(--bg-card);
+      background-color: #ffffff;
       border-radius: 6px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -327,14 +358,14 @@
       width: 100%;
       height: auto;
       aspect-ratio: 4 / 3; /* Matches 512x384 aspect ratio */
-      object-fit: contain; /* Prevents cropping full team images */
+      object-fit: contain; 
       display: block;
-      background-color: #0d0d0d;
+      background-color: #f4f4f4;
     }
 
     .feature-content h2 {
       font-size: 2.2rem;
-      color: #ffffff;
+      color: var(--color-text);
       margin-bottom: 15px;
     }
 
@@ -354,7 +385,7 @@
     ===================================================== */
     .stats-bar {
       background-color: var(--color-gold);
-      color: #111111;
+      color: #ffffff;
       padding: 30px 0;
     }
 
@@ -379,11 +410,11 @@
     }
 
     /* =====================================================
-       SERVICES / SOLUTIONS
+       SERVICES / SOLUTIONS (LIGHT THEME)
     ===================================================== */
     .services {
       padding: 80px 0;
-      background-color: var(--bg-primary);
+      background-color: var(--bg-secondary);
     }
 
     .section-title-box {
@@ -394,7 +425,7 @@
 
     .section-title-box h2 {
       font-size: 2.5rem;
-      color: #ffffff;
+      color: var(--color-text);
       margin-bottom: 15px;
     }
 
@@ -409,12 +440,13 @@
     }
 
     .service-card {
-      background-color: var(--bg-card);
+      background-color: #ffffff;
       border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid #e5e5e5;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
       transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
@@ -439,7 +471,7 @@
 
     .service-card h3 {
       font-size: 1.4rem;
-      color: var(--color-gold);
+      color: var(--color-text);
       margin-bottom: 12px;
     }
 
@@ -460,13 +492,13 @@
     }
 
     /* =====================================================
-       WHY CHOOSE US
+       WHY CHOOSE US (LIGHT THEME)
     ===================================================== */
     .why-us {
       padding: 80px 0;
-      background-color: var(--bg-card);
-      border-top: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-primary);
+      border-top: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
     }
 
     .why-grid {
@@ -477,14 +509,15 @@
 
     .why-box {
       padding: 25px;
-      background-color: var(--bg-primary);
+      background-color: var(--bg-secondary);
       border-left: 3px solid var(--color-gold);
       border-radius: 0 6px 6px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     }
 
     .why-box h4 {
       font-size: 1.25rem;
-      color: #ffffff;
+      color: var(--color-text);
       margin-bottom: 10px;
     }
 
@@ -495,10 +528,13 @@
     }
 
     /* =====================================================
-       CONTACT & MAP SECTION
+       CONTACT & MAP SECTION (DARK THEME WITH VECTOR ICONS)
     ===================================================== */
     .contact-section {
       padding: 80px 0;
+      background-color: #111111;
+      color: #ffffff;
+      border-top: 1px solid rgba(230, 180, 82, 0.25);
     }
 
     .contact-grid {
@@ -520,22 +556,28 @@
     }
 
     .contact-icon {
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--color-gold);
-      color: var(--color-gold);
+      width: 44px;
+      height: 44px;
+      border: 1px solid #e6b452;
+      color: #e6b452;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
       flex-shrink: 0;
-      border-radius: 4px;
+      border-radius: 6px;
+      background-color: rgba(230, 180, 82, 0.05);
+    }
+
+    .contact-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
     }
 
     .contact-text h5 {
       font-family: var(--font-body);
       font-size: 0.85rem;
-      color: var(--color-gold);
+      color: #e6b452;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 4px;
@@ -641,7 +683,7 @@
     }
 
     /* =====================================================
-       FOOTER
+       FOOTER (DARK THEME PRESERVED)
     ===================================================== */
     footer {
       background-color: #080808;
@@ -649,7 +691,7 @@
       padding: 40px 0;
       text-align: center;
       font-size: 0.85rem;
-      color: var(--color-muted);
+      color: #aaaaaa;
     }
 
     /* =====================================================
@@ -716,72 +758,80 @@
 </head>
 <body>
 
-  <!-- HEADER (UNFIXED & RESPONSIVE) -->
-  <header>
-    <div class="container header-container">
-      <div class="logo-box">
-        <a href="/">
-          <img src="logo.png" alt="Mishra Bank Freeze and Lien Solution Logo" class="brand-logo-img" />
-        </a>
+  <!-- HERO & HEADER WRAPPER (SHARE BACKGROUND ON Z-AXIS) -->
+  <div class="hero-header-wrapper">
+    
+    <!-- HEADER (SEMI-TRANSPARENT WHITE OVERLAY ON Z-AXIS) -->
+    <header>
+      <div class="container header-container">
+        <div class="logo-box">
+          <a href="/">
+            <img src="logo.png" alt="Mishra Bank Freeze and Lien Solution Logo" class="brand-logo-img" />
+          </a>
+        </div>
+        <div class="header-phones">
+          <a href="tel:886768352" class="header-phone">
+            <svg viewBox="0 0 24 24">
+              <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.02-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+            Call Us: +91 886768352
+          </a>
+        </div>
       </div>
-      <div class="header-phones">
-        <a href="tel:886768352" class="header-phone">
-          <span>📞</span> Call Us: +91 886768352
-        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="hero-tag">Specialized Cyber Law Firm in Bengaluru</span>
+          <h1>Mishra Bank Freeze and Lien Solution – <span>Best Cyber Lawyer in Bengaluru</span></h1>
+          <p>Under the mentorship of Advocate Praveen Mishra, we provide complete legal services backed by a vast experienced team, competent in handling complex cyber crime cases.</p>
+          
+          <ul class="hero-features">
+            <li>Cyber Law, Cyber Crime Cases & IT Law Defense</li>
+            <li>Bank Account De-freezing & Lien Un-hold Solutions</li>
+            <li>High Court & Supreme Court Strategic Litigation</li>
+            <li>24/7 Urgent Legal Support & Consultation</li>
+          </ul>
+        </div>
+
+        <!-- LEAD FORM (LIGHT THEME CARD WITH YELLOW BORDERS) -->
+        <div class="form-card" id="contact-form-section">
+          <h3>Consult Us Today!</h3>
+          <p>Fill out the form below to initiate your legal relief process</p>
+
+          <form id="leadForm">
+            <div class="form-group">
+              <label for="fullName">Full Name *</label>
+              <input type="text" id="fullName" class="form-control" placeholder="Enter your name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input type="tel" id="phone" class="form-control" placeholder="Enter mobile number" required />
+            </div>
+
+            <div class="form-group">
+              <label for="bankName">Case Type / Bank Freeze Details</label>
+              <input type="text" id="bankName" class="form-control" placeholder="e.g. Bank Account Freeze / Money Recovery" />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Incident Description / Details</label>
+              <textarea id="message" class="form-control" placeholder="Briefly describe your case..."></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn submit-btn">Submit Request</button>
+            <div id="formStatus" class="form-status"></div>
+          </form>
+        </div>
       </div>
-    </div>
-  </header>
+    </section>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="hero-tag">Specialized Cyber Law Firm in Bengaluru</span>
-        <h1>Mishra Bank Freeze and Lien Solution – <span>Best Cyber Lawyer in Bengaluru</span></h1>
-        <p>Under the mentorship of Advocate Praveen Mishra, we provide complete legal services backed by a vast experienced team, competent in handling complex cyber crime cases.</p>
-        
-        <ul class="hero-features">
-          <li>Cyber Law, Cyber Crime Cases & IT Law Defense</li>
-          <li>Bank Account De-freezing & Lien Un-hold Solutions</li>
-          <li>High Court & Supreme Court Strategic Litigation</li>
-          <li>24/7 Urgent Legal Support & Consultation</li>
-        </ul>
-      </div>
+  </div>
 
-      <!-- LEAD FORM -->
-      <div class="form-card" id="contact-form-section">
-        <h3>Consult Us Today!</h3>
-        <p>Fill out the form below to initiate your legal relief process</p>
-
-        <form id="leadForm">
-          <div class="form-group">
-            <label for="fullName">Full Name *</label>
-            <input type="text" id="fullName" class="form-control" placeholder="Enter your name" required />
-          </div>
-
-          <div class="form-group">
-            <label for="phone">Phone Number *</label>
-            <input type="tel" id="phone" class="form-control" placeholder="Enter mobile number" required />
-          </div>
-
-          <div class="form-group">
-            <label for="bankName">Case Type / Bank Freeze Details</label>
-            <input type="text" id="bankName" class="form-control" placeholder="e.g. Bank Account Freeze / Money Recovery" />
-          </div>
-
-          <div class="form-group">
-            <label for="message">Incident Description / Details</label>
-            <textarea id="message" class="form-control" placeholder="Briefly describe your case..."></textarea>
-          </div>
-
-          <button type="submit" id="submitBtn" class="btn submit-btn">Submit Request</button>
-          <div id="formStatus" class="form-status"></div>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ALTERNATING FEATURE SECTIONS (FIXED ASPECT RATIO 512x384px - NO IMAGE CUTTING) -->
+  <!-- ALTERNATING FEATURE SECTIONS (LIGHT THEME, 4:3 RATIO - NO CUTS) -->
   <section class="feature-row-section">
     <div class="container">
       
@@ -936,15 +986,19 @@
     </div>
   </section>
 
-  <!-- CONTACT DETAILS SECTION -->
+  <!-- CONTACT DETAILS SECTION (DARK THEME WITH OPTIMIZED SVG VECTOR ICONS) -->
   <section class="contact-section">
     <div class="container contact-grid">
       <div class="contact-info">
         <h2>Contact Our Office</h2>
-        <p style="color: var(--color-muted); margin-bottom: 30px;">Reach out directly for urgent cyber crime legal defense and account unfreezing.</p>
+        <p style="color: #aaaaaa; margin-bottom: 30px;">Reach out directly for urgent cyber crime legal defense and account unfreezing.</p>
 
         <div class="contact-item">
-          <div class="contact-icon">📍</div>
+          <div class="contact-icon" aria-label="Location Icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
           <div class="contact-text">
             <h5>Office Address</h5>
             <p>32, 8th Cross Road, Cubbonpete, Nagarathpete, Bengaluru, Karnataka 560002</p>
@@ -952,7 +1006,11 @@
         </div>
 
         <div class="contact-item">
-          <div class="contact-icon">📞</div>
+          <div class="contact-icon" aria-label="Phone Icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.02-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </div>
           <div class="contact-text">
             <h5>Contact Number</h5>
             <p><a href="tel:886768352" style="color:#ffffff;">+91 886768352</a></p>
@@ -960,7 +1018,11 @@
         </div>
 
         <div class="contact-item">
-          <div class="contact-icon">✉️</div>
+          <div class="contact-icon" aria-label="Email Icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
           <div class="contact-text">
             <h5>Email Contact</h5>
             <p>info@mishracybercrimelawyer.com</p>
@@ -973,7 +1035,7 @@
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7776.123922049008!2d77.585576!3d12.967887!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1792a5670289%3A0x71f720ab60479c44!2sMishra%20Cyber%20Lawyer%20-%20Best%20Cyber%20Crime%20Lawyer%20in%20Bangalore!5e0!3m2!1sen!2sin!4v1792054272063!5m2!1sen!2sin" 
           width="100%" 
           height="350" 
-          style="border:0; border-radius: 6px; border: 1px solid var(--border-color);" 
+          style="border:0; border-radius: 6px; border: 1px solid rgba(230,180,82,0.25);" 
           allowfullscreen="" 
           loading="lazy" 
           referrerpolicy="strict-origin-when-cross-origin">
@@ -982,7 +1044,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (DARK THEME PRESERVED) -->
   <footer>
     <div class="container">
       <p>&copy; 2026 Mishra Bank Freeze and Lien Solution. All Rights Reserved. | Made with ❤️ by DigiGo Plus</p>
@@ -1035,16 +1097,16 @@
         const result = await response.json();
 
         if (response.ok && result.success) {
-          formStatus.style.color = '#e6b452';
+          formStatus.style.color = '#b8860b';
           formStatus.innerText = 'Thank you! Your request has been submitted successfully. Our legal team will contact you shortly.';
           document.getElementById('leadForm').reset();
         } else {
-          formStatus.style.color = '#ff6b6b';
+          formStatus.style.color = '#d9534f';
           formStatus.innerText = result.message || 'Something went wrong. Please try calling us directly.';
         }
       } catch (error) {
         console.error('Error:', error);
-        formStatus.style.color = '#ff6b6b';
+        formStatus.style.color = '#d9534f';
         formStatus.innerText = 'Network error. Please check your connection and try again.';
       } finally {
         submitBtn.disabled = false;
