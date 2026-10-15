@@ -819,19 +819,20 @@
           <div class="contact-icon">✉️</div>
           <div class="contact-text">
             <h5>Email Contact</h5>
-            <p>adarshrajstechie@gmail.com</p>
+            <p>mishraadvocateschambers@gmail.com</p>
           </div>
         </div>
       </div>
 
       <div>
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.001683838188!2d77.5815!3d12.9715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c1234567%3A0x1234567890abcdef!2sCubbonpete%2C%20Bengaluru%2C%20Karnataka%20560002!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" 
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7776.123922049008!2d77.585576!3d12.967887!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1792a5670289%3A0x71f720ab60479c44!2sMishra%20Cyber%20Lawyer%20-%20Best%20Cyber%20Crime%20Lawyer%20in%20Bangalore!5e0!3m2!1sen!2sin!4v1792054272063!5m2!1sen!2sin" 
           width="100%" 
           height="350" 
           style="border:0; border-radius: 6px; border: 1px solid var(--border-color);" 
           allowfullscreen="" 
-          loading="lazy">
+          loading="lazy" 
+          referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
       </div>
     </div>
@@ -861,12 +862,9 @@
 
   <!-- EMAILJS FORM SUBMISSION SCRIPT -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- FORM SUBMISSION SCRIPT -->
   <script>
-    (function(){
-      emailjs.init("YOUR_PUBLIC_KEY"); 
-    })();
-
-    document.getElementById('leadForm').addEventListener('submit', function(event) {
+    document.getElementById('leadForm').addEventListener('submit', async function(event) {
       event.preventDefault();
 
       const submitBtn = document.getElementById('submitBtn');
@@ -876,21 +874,40 @@
       submitBtn.innerText = 'Sending Request...';
       formStatus.innerText = '';
 
-      const templateParams = {
-        from_name: document.getElementById('fullName').value,
+      const formData = {
+        fullName: document.getElementById('fullName').value,
         phone: document.getElementById('phone').value,
-        bank_details: document.getElementById('bankName').value,
-        message: document.getElementById('message').value,
-        to_email: 'adarshrajstechie@gmail.com'
+        bankName: document.getElementById('bankName').value,
+        message: document.getElementById('message').value
       };
 
-      setTimeout(function() {
-        formStatus.style.color = '#e6b452';
-        formStatus.innerText = 'Thank you! Your request has been submitted successfully. Our legal team will contact you shortly.';
+      try {
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          formStatus.style.color = '#e6b452';
+          formStatus.innerText = 'Thank you! Your request has been submitted successfully. Our legal team will contact you shortly.';
+          document.getElementById('leadForm').reset();
+        } else {
+          formStatus.style.color = '#ff6b6b';
+          formStatus.innerText = result.message || 'Something went wrong. Please try calling us directly.';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        formStatus.style.color = '#ff6b6b';
+        formStatus.innerText = 'Network error. Please check your connection and try again.';
+      } finally {
         submitBtn.disabled = false;
         submitBtn.innerText = 'Submit Request';
-        document.getElementById('leadForm').reset();
-      }, 1000);
+      }
     });
   </script>
 </body>
