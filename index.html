@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mishra Bank Freeze & Lien Solution | Legal Representation Bengaluru</title>
-  <meta name="description" content="Expert legal assistance for Bank Account Freeze and Cyber Cell Lien Removal in Bengaluru. Professional High Court Legal Representation." />
+  <title>Best Cyber Lawyer in Bangalore - Mishra Cyber Lawyer</title>
+  <meta name="description" content="As a best Cyber lawyer in Bangalore, we committed to adhere to the highest ethical and professional standards while ensuring that each client" />
   
   <!-- Favicon / Site Icon -->
-  <link rel="icon" href="logo.png" type="image/png">
-  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="icon" href="https://mishracybercrimelawyer.com/wp-content/uploads/2025/01/favicon-150x150.webp" type="image/webp">
+  <link rel="apple-touch-icon" href="https://mishracybercrimelawyer.com/wp-content/uploads/2025/01/favicon-300x300.webp">
 
   <!-- Fonts: Inter for Body, Times New Roman for Titles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -107,7 +107,7 @@
     ===================================================== */
     header {
       background-color: rgba(17, 17, 17, 0.98);
-      position: relative; /* Unfixed header */
+      position: relative;
       top: auto;
       z-index: 1000;
       border-bottom: 1px solid var(--border-color);
@@ -129,22 +129,28 @@
     }
 
     .brand-logo-img {
-      height: 80px; /* Increased height for full clarity of bottom text */
+      height: 70px;
       width: auto;
       object-fit: contain;
       display: block;
-      transform: scale(1.15); /* Zoomed for legibility */
+      transform: scale(1.1);
       transform-origin: left center;
       transition: transform 0.3s ease;
     }
 
+    .header-phones {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
     .header-phone {
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       color: var(--color-gold);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       white-space: nowrap;
     }
 
@@ -154,7 +160,7 @@
     .hero {
       padding: 80px 0 60px;
       background: linear-gradient(180deg, rgba(17,17,17,0.85) 0%, rgba(17,17,17,1) 100%), 
-                  url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+                  url('https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/home.jpg') center/cover no-repeat;
     }
 
     .hero-grid {
@@ -188,7 +194,7 @@
     .hero p {
       font-size: 1.05rem;
       color: var(--color-muted);
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     .hero-features {
@@ -392,15 +398,31 @@
 
     .service-card {
       background-color: var(--bg-card);
-      padding: 30px;
       border-radius: 6px;
       border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
     .service-card:hover {
       transform: translateY(-5px);
       border-color: var(--color-gold);
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .service-card-body {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
     }
 
     .service-card h3 {
@@ -413,6 +435,16 @@
       color: var(--color-muted);
       font-size: 0.92rem;
       line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .service-link {
+      color: var(--color-gold);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     /* =====================================================
@@ -447,6 +479,7 @@
     .why-box p {
       font-size: 0.88rem;
       color: var(--color-muted);
+      line-height: 1.7;
     }
 
     /* =====================================================
@@ -499,6 +532,7 @@
     .contact-text p {
       color: #ffffff;
       font-size: 0.95rem;
+      line-height: 1.6;
     }
 
     /* =====================================================
@@ -529,7 +563,6 @@
       -webkit-backdrop-filter: blur(8px);
     }
 
-    /* Ultra Modern Energy Pulse Radiating Effect */
     .action-btn::before,
     .action-btn::after {
       content: '';
@@ -579,7 +612,6 @@
       transform: scale(1.15) translateY(-3px);
     }
 
-    /* Ultra Modern Gradient Colors */
     .btn-call {
       background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
       color: #ffffff;
@@ -634,8 +666,19 @@
         gap: 25px;
       }
       .brand-logo-img {
-        height: 68px;
-        transform: scale(1.1);
+        height: 60px;
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-phones {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
+      .header-phone {
+        font-size: 0.82rem;
       }
     }
 
@@ -643,15 +686,9 @@
       header {
         padding: 10px 0;
       }
-      .header-container {
-        justify-content: space-between;
-      }
       .brand-logo-img {
-        height: 58px;
-        transform: scale(1.08);
-      }
-      .header-phone {
-        font-size: 0.9rem;
+        height: 50px;
+        transform: scale(1);
       }
       .hero h1 {
         font-size: 2rem;
@@ -673,16 +710,6 @@
         height: 22px;
       }
     }
-
-    @media (max-width: 400px) {
-      .brand-logo-img {
-        height: 50px;
-        transform: scale(1);
-      }
-      .header-phone {
-        font-size: 0.82rem;
-      }
-    }
   </style>
 </head>
 <body>
@@ -691,13 +718,18 @@
   <header>
     <div class="container header-container">
       <div class="logo-box">
-        <a href="/">
-          <img src="logo.png" alt="Mishra Bank Freeze & Lien Solution Logo" class="brand-logo-img" />
+        <a href="https://mishracybercrimelawyer.com/">
+          <img src="logo.png" alt="Mishra Cyber Lawyer Logo" class="brand-logo-img" />
         </a>
       </div>
-      <a href="tel:886768352" class="header-phone">
-        <span>📞</span> +91 886768352
-      </a>
+      <div class="header-phones">
+        <a href="tel:9972740632" class="header-phone">
+          <span>📞</span> Marathahalli: +91 9972740632
+        </a>
+        <a href="tel:8528003252" class="header-phone">
+          <span>📞</span> Nagarthpet: +91 8528003252
+        </a>
+      </div>
     </div>
   </header>
 
@@ -705,22 +737,22 @@
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="hero-tag">High Court Legal Assistance</span>
-        <h1>Is Your Bank Account <span>Frozen or Placed on Lien?</span></h1>
-        <p>Immediate, legally backed resolution for Cyber Cell bank account freezes, P2P transaction holds, and illegal debit restrictions in Bengaluru.</p>
+        <span class="hero-tag">Specialized Cyber Law Firm in Bangalore</span>
+        <h1>Mishra Cyber Lawyer – <span>Best Cyber Lawyer in Bangalore</span></h1>
+        <p>Under the mentorship of Advocate Praveen Mishra, we provide complete legal services backed by a vast experienced team, competent in handling complex cyber crime cases.</p>
         
         <ul class="hero-features">
-          <li>Unfreeze Bank Accounts & Remove Cyber Lien Notices</li>
-          <li>Representation Before Cyber Crime Police & High Court</li>
-          <li>Fast-Track Legal Relief for P2P & Online Traders</li>
-          <li>Direct Legal Consultation with Experienced Advocates</li>
+          <li>Cyber Law, Cyber Crime Cases & IT Law Defense</li>
+          <li>Bank Account De-freezing & Lien Un-hold Solutions</li>
+          <li>High Court & Supreme Court Strategic Litigation</li>
+          <li>24/7 Urgent Legal Support & Consultation</li>
         </ul>
       </div>
 
       <!-- LEAD FORM -->
       <div class="form-card" id="contact-form-section">
-        <h3>Request Free Legal Advice</h3>
-        <p>Fill out the form below to initiate account unfreezing</p>
+        <h3>Consult Us Today!</h3>
+        <p>Fill out the form below to initiate your legal relief process</p>
 
         <form id="leadForm">
           <div class="form-group">
@@ -734,12 +766,12 @@
           </div>
 
           <div class="form-group">
-            <label for="bankName">Bank Name & Freeze Type</label>
-            <input type="text" id="bankName" class="form-control" placeholder="e.g. HDFC / Cyber Cell Notice" />
+            <label for="bankName">Case Type / Bank Freeze Details</label>
+            <input type="text" id="bankName" class="form-control" placeholder="e.g. Bank Account Freeze / Money Recovery" />
           </div>
 
           <div class="form-group">
-            <label for="message">Details / Incident Description</label>
+            <label for="message">Incident Description / Details</label>
             <textarea id="message" class="form-control" placeholder="Briefly describe your case..."></textarea>
           </div>
 
@@ -757,11 +789,11 @@
       <!-- Row 1: Image on Left -->
       <div class="feature-row">
         <div class="feature-img-box">
-          <img src="image-1.webp" alt="Legal Consultation and Representation" loading="lazy" />
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/home.jpg" alt="Best Cyber Lawyer in Bangalore" loading="lazy" />
         </div>
         <div class="feature-content">
-          <h2>Professional Representation for <span>Cyber Cell Freezes</span></h2>
-          <p>When law enforcement agencies mark a lien or freeze your operating bank accounts, it halts your business and personal finances. Our expert legal team intervenes promptly to communicate with investigating officers, file required representations, and secure speedy NOCs.</p>
+          <h2>Professional Legal Support for <span>Victims & Accused</span></h2>
+          <p>We are committed to adhering to the highest ethical and professional standards while ensuring that each client receives personalized legal solutions tailored to their needs. We specialize in handling complex cyber crime cases in Bangalore and nearby jurisdictions with transparent practices.</p>
           <a href="#contact-form-section" class="btn">Get Immediate Help</a>
         </div>
       </div>
@@ -769,11 +801,11 @@
       <!-- Row 2: Image on Right -->
       <div class="feature-row alternate">
         <div class="feature-img-box">
-          <img src="image-2.webp" alt="High Court Litigation and Documentation" loading="lazy" />
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/about-us.webp" alt="About Mishra Cyber Lawyer" loading="lazy" />
         </div>
         <div class="feature-content">
-          <h2>High Court Redressal & <span>Legal Compliance</span></h2>
-          <p>If cyber cells or banks fail to lift arbitrary holds under CrPC provisions, we draft and file Writ Petitions before the Hon'ble High Court. We ensure complete compliance and transparent legal processes to restore full access to your funds safely.</p>
+          <h2>Over a Decade of <span>Legal Excellence</span></h2>
+          <p>Founded under the mentorship of Advocate Praveen Mishra, our law office is recognized for solving legal issues with clarity and confidence instead of creating confusion. We deliver strategic, results-driven advocacy across district courts, high courts, and the supreme court.</p>
           <a href="#contact-form-section" class="btn btn-outline">Consult Advocate</a>
         </div>
       </div>
@@ -785,20 +817,20 @@
   <section class="stats-bar">
     <div class="container stats-grid">
       <div class="stat-item">
-        <h2>100%</h2>
-        <p>Legal Compliance</p>
+        <h2>10+</h2>
+        <p>Years Experience</p>
       </div>
       <div class="stat-item">
-        <h2>Fast</h2>
-        <p>Turnaround Relief</p>
+        <h2>500+</h2>
+        <p>Google Reviews</p>
       </div>
       <div class="stat-item">
-        <h2>Cyber Law</h2>
-        <p>Specialized Team</p>
+        <h2>24/7</h2>
+        <p>Legal Support</p>
       </div>
       <div class="stat-item">
         <h2>BLR</h2>
-        <p>Bengaluru High Court</p>
+        <p>High Court Experts</p>
       </div>
     </div>
   </section>
@@ -808,23 +840,74 @@
     <div class="container">
       <div class="section-title-box">
         <h2>Our Core Practice Areas</h2>
-        <p>We provide legal remedies to lift bank account restrictions imposed by Law Enforcement Agencies (LEAs) and Cyber Cells across India.</p>
+        <p>Providing expert legal remedies for cyber-crime cases, data protection, and bank account unfreezing.</p>
       </div>
 
       <div class="services-grid">
         <div class="service-card">
-          <h3>Cyber Cell Bank Freeze</h3>
-          <p>Assistance in getting NOCs from State/Central Cyber Cells and drafting legal representations to police authorities.</p>
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/Debt-Recovery.jpg" alt="Money Recovery" loading="lazy">
+          <div class="service-card-body">
+            <div>
+              <h3>Money Recovery</h3>
+              <p>We work as a link between victims of cyber-crime cases and the local police where F.I.R is registered, helping victims understand, coordinate, and follow up timely.</p>
+            </div>
+            <a href="https://mishracybercrimelawyer.com/money-recovery/" class="service-link">Learn More &rarr;</a>
+          </div>
         </div>
 
         <div class="service-card">
-          <h3>P2P / Crypto Freeze Relief</h3>
-          <p>Legal defense for account freezes arising from P2P cryptocurrency trading transactions or disputed third-party deposits.</p>
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/account-frozen.webp" alt="De-freezing of Bank Account" loading="lazy">
+          <div class="service-card-body">
+            <div>
+              <h3>De-freezing of Bank Account</h3>
+              <p>Assisting individuals or businesses in getting their bank accounts de-freezed if frozen by the police or competent law enforcement bodies.</p>
+            </div>
+            <a href="https://mishracybercrimelawyer.com/de-freezing-of-bank-account/" class="service-link">Learn More &rarr;</a>
+          </div>
         </div>
 
         <div class="service-card">
-          <h3>Lien Removal Services</h3>
-          <p>Removing partial or full debit liens marked on bank accounts under Section 102 CrPC / BNSS compliance.</p>
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/lien-removal.webp" alt="Lien Removal" loading="lazy">
+          <div class="service-card-body">
+            <div>
+              <h3>Lien Removal</h3>
+              <p>Assisting persons whose account funds have been put on hold or marked with a lien by police or law enforcement authorities, along with bail and anticipatory bail representation.</p>
+            </div>
+            <a href="https://mishracybercrimelawyer.com/lien-removal/" class="service-link">Learn More &rarr;</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/cryptocurrency.webp" alt="Cryptocurrency" loading="lazy">
+          <div class="service-card-body">
+            <div>
+              <h3>Cryptocurrency</h3>
+              <p>Claiming amounts frozen by police for cryptocurrency (Binance P2P) transactions, criminal court proceedings, mediation, and settlement agreements.</p>
+            </div>
+            <a href="https://mishracybercrimelawyer.com/cryptocurrency/" class="service-link">Learn More &rarr;</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/ecommerce-law.webp" alt="E-Commerce Laws" loading="lazy">
+          <div class="service-card-body">
+            <div>
+              <h3>E-Commerce Laws</h3>
+              <p>Resolving disputes regarding cybersquatting, renewal snatching, drafting e-contracts, enforcement, and copyright protection on e-commerce apps.</p>
+            </div>
+            <a href="https://mishracybercrimelawyer.com/e-commerce-laws/" class="service-link">Learn More &rarr;</a>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <img src="https://mishracybercrimelawyer.com/wp-content/uploads/2025/05/security-issues.webp" alt="Security Issues" loading="lazy">
+          <div class="service-card-body">
+            <div>
+              <h3>Security Issues</h3>
+              <p>Protecting victims or the accused in hacking, cyber harassment, cyber terrorism, and content-based crimes like defamatory content or cyber obscenity.</p>
+            </div>
+            <a href="https://mishracybercrimelawyer.com/security-issues/" class="service-link">Learn More &rarr;</a>
+          </div>
         </div>
       </div>
     </div>
@@ -834,21 +917,21 @@
   <section class="why-us">
     <div class="container">
       <div class="section-title-box">
-        <h2>Why Choose Mishra Legal Solutions</h2>
+        <h2>Why Choose Mishra Cyber Lawyer?</h2>
       </div>
 
       <div class="why-grid">
         <div class="why-box">
-          <h4>Experienced Representation</h4>
-          <p>Direct oversight by Advocates with deep expertise in High Court & Cyber Law proceedings.</p>
+          <h4>Over a Decade of Practice</h4>
+          <p>Experienced legal team with over one decade of practice in diverse areas related to cyber laws.</p>
         </div>
         <div class="why-box">
-          <h4>End-to-End Case Tracking</h4>
-          <p>We handle everything from liaisoning with Cyber Cells to obtaining formal Bank Clearance Letters.</p>
+          <h4>Client-Centric & Ethical</h4>
+          <p>Transparent practices ensuring fairness, professionalism, and high ethical standards.</p>
         </div>
         <div class="why-box">
-          <h4>Transparent & Fast Execution</h4>
-          <p>Clear, upfront legal advice with high priority given to emergency freeze cases.</p>
+          <h4>24/7 Urgent Support</h4>
+          <p>Round-the-clock legal assistance ensuring clients receive immediate guidance when it matters most.</p>
         </div>
       </div>
     </div>
@@ -859,21 +942,22 @@
     <div class="container contact-grid">
       <div class="contact-info">
         <h2>Contact Our Office</h2>
-        <p style="color: var(--color-muted); margin-bottom: 30px;">Reach out directly for urgent bank freeze resolution and consultation.</p>
+        <p style="color: var(--color-muted); margin-bottom: 30px;">Reach out directly for urgent cyber crime legal defense and account unfreezing.</p>
 
         <div class="contact-item">
           <div class="contact-icon">📍</div>
           <div class="contact-text">
             <h5>Office Address</h5>
-            <p>Mishra Bank Freeze and Lien Solution<br>32, 8th Cross Road, Cubbonpete, Nagarathpete, Bengaluru, Karnataka 560002</p>
+            <p>G2, VMC Complex, 8th Cross Road, Cubbonpet, Nagarthpet, Bangalore - 560002</p>
           </div>
         </div>
 
         <div class="contact-item">
           <div class="contact-icon">📞</div>
           <div class="contact-text">
-            <h5>Business Contact</h5>
-            <p><a href="tel:886768352" style="color:#ffffff;">+91 886768352</a></p>
+            <h5>Helpline Numbers</h5>
+            <p><a href="tel:8528003252" style="color:#ffffff;">Nagarthpet: (+91) 8528003252</a><br>
+               <a href="tel:9972740632" style="color:#ffffff;">Marathahalli: (+91) 9972740632</a></p>
           </div>
         </div>
 
@@ -881,7 +965,7 @@
           <div class="contact-icon">✉️</div>
           <div class="contact-text">
             <h5>Email Contact</h5>
-            <p>mishraadvocateschambers@gmail.com</p>
+            <p>info@mishracybercrimelawyer.com</p>
           </div>
         </div>
       </div>
@@ -903,28 +987,26 @@
   <!-- FOOTER -->
   <footer>
     <div class="container">
-      <p>&copy; 2026 Mishra Bank Freeze and Lien Solution. All Rights Reserved.</p>
+      <p>&copy; 2026 Mishra Cyber Lawyer. All Rights Reserved. | Made with ❤️ by DigiGo Plus</p>
     </div>
   </footer>
 
   <!-- FIXED ACTION BUTTONS (BOTTOM RIGHT) -->
   <div class="fixed-actions-right">
-    <a href="tel:886768352" class="action-btn btn-call" aria-label="Call Client">
+    <a href="tel:8528003252" class="action-btn btn-call" aria-label="Call Client">
       <svg viewBox="0 0 32 32">
         <path d="M27.01 23.49l-1.75 1.75a5 5 0 01-5.2 1.18c-1.97-.69-4.87-2.36-8.44-5.93S6.39 14.03 5.69 12.06a5 5 0 011.18-5.2l1.75-1.75a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.41l-1.81 1.81a1 1 0 00-.08 1.32 40.74 40.74 0 004.08 4.58 40.74 40.74 0 004.58 4.08 1 1 0 001.32-.08l1.81-1.81a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.42z"/>
       </svg>
     </a>
 
-    <a href="https://wa.me/91886768352?text=Hello%2C%20I%20need%20legal%20assistance%20regarding%20my%20frozen%20bank%20account." target="_blank" class="action-btn btn-whatsapp" aria-label="WhatsApp Us">
+    <a href="https://api.whatsapp.com/send/?phone=918528003252&text=Hello%2C%20I%20need%20legal%20assistance%20regarding%20my%20frozen%20bank%20account." target="_blank" class="action-btn btn-whatsapp" aria-label="WhatsApp Us">
       <svg viewBox="0 0 32 32">
         <path d="M16 2a13 13 0 00-11 19.9L3 29l7.3-1.9A13 13 0 1016 2zm0 23.8a10.8 10.8 0 01-5.5-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4A10.8 10.8 0 1116 25.8zm5.9-8.1c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8 8 0 01-2.4-1.5 8.9 8.9 0 01-1.7-2.1c-.2-.3 0-.5.2-.6s.3-.4.5-.6a2.3 2.3 0 00.3-.5.6.6 0 000-.6c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.7 3.7 0 00-1.1 2.7 6.4 6.4 0 001.3 3.4 14.6 14.6 0 005.6 4.9c2.3 1 2.8.8 3.3.8a2.8 2.8 0 001.9-1.3 2.3 2.3 0 00.2-1.3c-.2-.1-.5-.2-.8-.4z"/>
       </svg>
     </a>
   </div>
 
-  <!-- EMAILJS FORM SUBMISSION SCRIPT -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<!-- FORM SUBMISSION SCRIPT -->
+  <!-- FORM SUBMISSION SCRIPT -->
   <script>
     document.getElementById('leadForm').addEventListener('submit', async function(event) {
       event.preventDefault();
