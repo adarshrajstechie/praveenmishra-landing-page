@@ -13,7 +13,7 @@
   <!-- Fonts: Inter for Body, Times New Roman for Titles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     /* =====================================================
@@ -25,7 +25,7 @@
       --bg-card: #ffffff;
       --bg-card-light: #f1f3f5;
       --color-gold: #b8860b; /* Brand yellow/gold color */
-      --color-gold-dark: #996f00; /* Darker shade for better readability */
+      --color-gold-dark: #8a5a00; /* High-contrast dark amber-gold */
       --color-gold-hover: #7a5800;
       --color-text: #1a1a1a;
       --color-muted: #555555;
@@ -113,7 +113,7 @@
        HEADER (SEMI-TRANSPARENT WHITE OVERLAY ON Z-AXIS)
     ===================================================== */
     header {
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       position: relative;
@@ -152,20 +152,33 @@
       align-items: center;
     }
 
+    /* HIGH VISIBILITY HEADER PHONE CTA */
     .header-phone {
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.95rem;
-      color: var(--color-gold-dark); /* Darker shade for easy identification */
+      color: #ffffff;
+      background: linear-gradient(135deg, #b8860b 0%, #8a5a00 100%);
+      padding: 10px 20px;
+      border-radius: 50px;
       display: flex;
       align-items: center;
       gap: 8px;
       white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(138, 90, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .header-phone:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(138, 90, 0, 0.45);
+      background: linear-gradient(135deg, #996f00 0%, #7a5800 100%);
     }
 
     .header-phone svg {
       width: 18px;
       height: 18px;
-      fill: currentColor;
+      fill: #ffffff;
     }
 
     /* =====================================================
@@ -684,15 +697,22 @@
     }
 
     /* =====================================================
-       FOOTER (DARK THEME PRESERVED)
+       FOOTER (RESPONSIVE PADDING ADJUSTMENT)
     ===================================================== */
     footer {
       background-color: #080808;
       border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 40px 0;
+      padding: 40px 0 150px; /* Mobile & tablet bottom padding */
       text-align: center;
       font-size: 0.85rem;
       color: #aaaaaa;
+    }
+
+    /* Desktop View Only: Reduced Bottom Padding */
+    @media (min-width: 993px) {
+      footer {
+        padding-bottom: 30px;
+      }
     }
 
     /* =====================================================
@@ -716,10 +736,11 @@
       .header-phones {
         display: none;
       }
-    }
-    footer {
-        padding-bottom: 130px; /* Adjust this value to your preferred spacing */
+      /* Center header logo container on mobile and tablet views */
+      .header-container {
+        justify-content: center;
       }
+    }
 
     @media (max-width: 768px) {
       .feature-content h2 {
