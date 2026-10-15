@@ -502,48 +502,109 @@
     }
 
     /* =====================================================
-       FIXED BOTTOM RIGHT ACTION BUTTONS (CALL & WHATSAPP)
+       ULTRA-MODERN FIXED BOTTOM RIGHT ACTION BUTTONS
     ===================================================== */
     .fixed-actions-right {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 24px;
+      right: 24px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
       z-index: 9999;
     }
 
     .action-btn {
-      width: 52px;
-      height: 52px;
+      position: relative;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
       text-decoration: none;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* Ultra Modern Energy Pulse Radiating Effect */
+    .action-btn::before,
+    .action-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .btn-call::before {
+      border: 2px solid #00f2fe;
+      animation: energyPulse 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    .btn-call::after {
+      border: 2px solid #4facfe;
+      animation: energyPulse 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1) 0.75s;
+    }
+
+    .btn-whatsapp::before {
+      border: 2px solid #25D366;
+      animation: energyPulse 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    .btn-whatsapp::after {
+      border: 2px solid #11998e;
+      animation: energyPulse 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1) 0.75s;
+    }
+
+    @keyframes energyPulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
     }
 
     .action-btn:hover {
-      transform: scale(1.1);
+      transform: scale(1.15) translateY(-3px);
     }
 
+    /* Ultra Modern Gradient Colors */
     .btn-call {
-      background-color: #008A00;
+      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
       color: #ffffff;
+      box-shadow: 0 8px 25px rgba(0, 242, 254, 0.45);
+    }
+
+    .btn-call:hover {
+      box-shadow: 0 12px 30px rgba(0, 242, 254, 0.65);
     }
 
     .btn-whatsapp {
-      background-color: #25D366;
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
       color: #ffffff;
+      box-shadow: 0 8px 25px rgba(56, 239, 125, 0.45);
+    }
+
+    .btn-whatsapp:hover {
+      box-shadow: 0 12px 30px rgba(56, 239, 125, 0.65);
     }
 
     .action-btn svg {
       width: 26px;
       height: 26px;
       fill: currentColor;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
 
     /* =====================================================
@@ -599,12 +660,13 @@
         padding: 22px;
       }
       .fixed-actions-right {
-        bottom: 15px;
-        right: 15px;
+        bottom: 18px;
+        right: 18px;
+        gap: 14px;
       }
       .action-btn {
-        width: 46px;
-        height: 46px;
+        width: 48px;
+        height: 48px;
       }
       .action-btn svg {
         width: 22px;
