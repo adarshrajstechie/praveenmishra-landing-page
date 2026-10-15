@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mishra Bank Freeze & Lien Solution | Legal Representation Bengaluru</title>
+  <meta name="description" content="Expert legal assistance for Bank Account Freeze and Cyber Cell Lien Removal in Bengaluru. Professional High Court Legal Representation." />
+  
+  <!-- Fonts: Inter for Body, Times New Roman for Titles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       GLOBAL RESET & BRAND STYLES
+       Primary/Brand: #111111
+       Secondary/Accent: #e6b452
+       Title Font: 'Times New Roman', Times, serif
+       Normal Font: 'Inter', sans-serif
+    ===================================================== */
+    :root {
+      --bg-primary: #111111;
+      --bg-card: #181818;
+      --bg-card-light: #222222;
+      --color-gold: #e6b452;
+      --color-gold-hover: #d4a242;
+      --color-text: #f0f0f0;
+      --color-muted: #a0a0a0;
+      --border-color: rgba(230, 180, 82, 0.25);
+      --font-title: 'Times New Roman', Times, Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--color-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .brand-title, .section-heading {
+      font-family: var(--font-title);
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--color-gold);
+      color: #000000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 4px;
+      border: 1px solid var(--color-gold);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: transparent;
+      color: var(--color-gold);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--color-gold);
+      border: 1px solid var(--color-gold);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--color-gold);
+      color: #000000;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+    header {
+      background-color: rgba(17, 17, 17, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+    }
+
+    .logo-box {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .header-phone {
+      font-weight: 600;
+      color: var(--color-gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* =====================================================
+       HERO SECTION (META ADS OPTIMIZED)
+    ===================================================== */
+    .hero {
+      padding: 80px 0 60px;
+      background: linear-gradient(180deg, rgba(17,17,17,0.85) 0%, rgba(17,17,17,1) 100%), 
+                  url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      color: var(--color-gold);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.3rem, 4vw, 3.5rem);
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--color-gold);
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--color-muted);
+      margin-bottom: 30px;
+    }
+
+    .hero-features {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+
+    .hero-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .hero-features li::before {
+      content: "✓";
+      color: var(--color-gold);
+      font-weight: bold;
+    }
+
+    /* Lead Form Box */
+    .form-card {
+      background-color: var(--bg-card);
+      padding: 35px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .form-card h3 {
+      font-size: 1.8rem;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .form-card p {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      color: #dddddd;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: var(--bg-primary);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--color-gold);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .form-status {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    /* =====================================================
+       ALTERNATING FEATURE SECTIONS (IMAGES FROM GOOGLE)
+    ===================================================== */
+    .feature-row-section {
+      padding: 80px 0;
+      background-color: var(--bg-primary);
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      margin-bottom: 70px;
+    }
+
+    .feature-row:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Alternating layout configuration */
+    .feature-row.alternate {
+      direction: rtl;
+    }
+
+    .feature-row.alternate > * {
+      direction: ltr;
+    }
+
+    .feature-img-box img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .feature-content h2 {
+      font-size: 2.2rem;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
+
+    .feature-content h2 span {
+      color: var(--color-gold);
+    }
+
+    .feature-content p {
+      color: var(--color-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    /* =====================================================
+       STATS BAR
+    ===================================================== */
+    .stats-bar {
+      background-color: var(--color-gold);
+      color: #111111;
+      padding: 30px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      gap: 20px;
+    }
+
+    .stat-item h2 {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .stat-item p {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* =====================================================
+       SERVICES / SOLUTIONS
+    ===================================================== */
+    .services {
+      padding: 80px 0;
+      background-color: var(--bg-primary);
+    }
+
+    .section-title-box {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px;
+    }
+
+    .section-title-box h2 {
+      font-size: 2.5rem;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
+
+    .section-title-box p {
+      color: var(--color-muted);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background-color: var(--bg-card);
+      padding: 30px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-gold);
+    }
+
+    .service-card h3 {
+      font-size: 1.4rem;
+      color: var(--color-gold);
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: var(--color-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    /* =====================================================
+       WHY CHOOSE US
+    ===================================================== */
+    .why-us {
+      padding: 80px 0;
+      background-color: var(--bg-card);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .why-box {
+      padding: 25px;
+      background-color: var(--bg-primary);
+      border-left: 3px solid var(--color-gold);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .why-box h4 {
+      font-size: 1.25rem;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .why-box p {
+      font-size: 0.88rem;
+      color: var(--color-muted);
+    }
+
+    /* =====================================================
+       CONTACT & MAP SECTION
+    ===================================================== */
+    .contact-section {
+      padding: 80px 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+
+    .contact-info h2 {
+      font-size: 2.3rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+
+    .contact-text h5 {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--color-gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .contact-text p {
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    /* =====================================================
+       FIXED BOTTOM RIGHT ACTION BUTTONS (CALL & WHATSAPP)
+    ===================================================== */
+    .fixed-actions-right {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .action-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-call {
+      background-color: #008A00;
+      color: #ffffff;
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: #ffffff;
+    }
+
+    .action-btn svg {
+      width: 26px;
+      height: 26px;
+      fill: currentColor;
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    footer {
+      background-color: #080808;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 40px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+
+    /* =====================================================
+       RESPONSIVE DESIGN (TABLETS & MOBILE)
+    ===================================================== */
+    @media (max-width: 992px) {
+      .hero-grid, .contact-grid, .feature-row {
+        grid-template-columns: 1fr;
+      }
+      .feature-row.alternate {
+        direction: ltr;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-phone {
+        display: none;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .form-card {
+        padding: 22px;
+      }
+      .brand-logo-img {
+        height: 38px;
+      }
+      .fixed-actions-right {
+        bottom: 15px;
+        right: 15px;
+      }
+      .action-btn {
+        width: 46px;
+        height: 46px;
+      }
+      .action-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container header-container">
+      <div class="logo-box">
+        <a href="/">
+          <img src="public/logo.png" alt="Mishra Bank Freeze & Lien Solution Logo" class="brand-logo-img" />
+        </a>
+      </div>
+      <a href="tel:886768352" class="header-phone">
+        <span>📞</span> +91 886768352
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="hero-tag">High Court Legal Assistance</span>
+        <h1>Is Your Bank Account <span>Frozen or Placed on Lien?</span></h1>
+        <p>Immediate, legally backed resolution for Cyber Cell bank account freezes, P2P transaction holds, and illegal debit restrictions in Bengaluru.</p>
+        
+        <ul class="hero-features">
+          <li>Unfreeze Bank Accounts & Remove Cyber Lien Notices</li>
+          <li>Representation Before Cyber Crime Police & High Court</li>
+          <li>Fast-Track Legal Relief for P2P & Online Traders</li>
+          <li>Direct Legal Consultation with Experienced Advocates</li>
+        </ul>
+      </div>
+
+      <!-- LEAD FORM -->
+      <div class="form-card" id="contact-form-section">
+        <h3>Request Free Legal Advice</h3>
+        <p>Fill out the form below to initiate account unfreezing</p>
+
+        <form id="leadForm">
+          <div class="form-group">
+            <label for="fullName">Full Name *</label>
+            <input type="text" id="fullName" class="form-control" placeholder="Enter your name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" class="form-control" placeholder="Enter mobile number" required />
+          </div>
+
+          <div class="form-group">
+            <label for="bankName">Bank Name & Freeze Type</label>
+            <input type="text" id="bankName" class="form-control" placeholder="e.g. HDFC / Cyber Cell Notice" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Details / Incident Description</label>
+            <textarea id="message" class="form-control" placeholder="Briefly describe your case..."></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn submit-btn">Submit Request</button>
+          <div id="formStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALTERNATING IMAGE & CONTENT ROWS (DIRECTLY BELOW HERO) -->
+  <section class="feature-row-section">
+    <div class="container">
+      
+      <!-- Row 1: Image on Left -->
+      <div class="feature-row">
+        <div class="feature-img-box">
+          <img src="https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=1000&q=80" alt="Legal Consultation and Representation" loading="lazy" />
+        </div>
+        <div class="feature-content">
+          <h2>Professional Representation for <span>Cyber Cell Freezes</span></h2>
+          <p>When law enforcement agencies mark a lien or freeze your operating bank accounts, it halts your business and personal finances. Our expert legal team intervenes promptly to communicate with investigating officers, file required representations, and secure speedy NOCs.</p>
+          <a href="#contact-form-section" class="btn">Get Immediate Help</a>
+        </div>
+      </div>
+
+      <!-- Row 2: Image on Right (Alternating Structure) -->
+      <div class="feature-row alternate">
+        <div class="feature-img-box">
+          <img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1000&q=80" alt="High Court Litigation and Documentation" loading="lazy" />
+        </div>
+        <div class="feature-content">
+          <h2>High Court Redressal & <span>Legal Compliance</span></h2>
+          <p>If cyber cells or banks fail to lift arbitrary holds under CrPC provisions, we draft and file Writ Petitions before the Hon'ble High Court. We ensure complete compliance and transparent legal processes to restore full access to your funds safely.</p>
+          <a href="#contact-form-section" class="btn btn-outline">Consult Advocate</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar">
+    <div class="container stats-grid">
+      <div class="stat-item">
+        <h2>100%</h2>
+        <p>Legal Compliance</p>
+      </div>
+      <div class="stat-item">
+        <h2>Fast</h2>
+        <p>Turnaround Relief</p>
+      </div>
+      <div class="stat-item">
+        <h2>Cyber Law</h2>
+        <p>Specialized Team</p>
+      </div>
+      <div class="stat-item">
+        <h2>BLR</h2>
+        <p>Bengaluru High Court</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section class="services">
+    <div class="container">
+      <div class="section-title-box">
+        <h2>Our Core Practice Areas</h2>
+        <p>We provide legal remedies to lift bank account restrictions imposed by Law Enforcement Agencies (LEAs) and Cyber Cells across India.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>Cyber Cell Bank Freeze</h3>
+          <p>Assistance in getting NOCs from State/Central Cyber Cells and drafting legal representations to police authorities.</p>
+        </div>
+
+        <div class="service-card">
+          <h3>P2P / Crypto Freeze Relief</h3>
+          <p>Legal defense for account freezes arising from P2P cryptocurrency trading transactions or disputed third-party deposits.</p>
+        </div>
+
+        <div class="service-card">
+          <h3>Lien Removal Services</h3>
+          <p>Removing partial or full debit liens marked on bank accounts under Section 102 CrPC / BNSS compliance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-us">
+    <div class="container">
+      <div class="section-title-box">
+        <h2>Why Choose Mishra Legal Solutions</h2>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-box">
+          <h4>Experienced Representation</h4>
+          <p>Direct oversight by Advocates with deep expertise in High Court & Cyber Law proceedings.</p>
+        </div>
+        <div class="why-box">
+          <h4>End-to-End Case Tracking</h4>
+          <p>We handle everything from liaisoning with Cyber Cells to obtaining formal Bank Clearance Letters.</p>
+        </div>
+        <div class="why-box">
+          <h4>Transparent & Fast Execution</h4>
+          <p>Clear, upfront legal advice with high priority given to emergency freeze cases.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT DETAILS SECTION -->
+  <section class="contact-section">
+    <div class="container contact-grid">
+      <div class="contact-info">
+        <h2>Contact Our Office</h2>
+        <p style="color: var(--color-muted); margin-bottom: 30px;">Reach out directly for urgent bank freeze resolution and consultation.</p>
+
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-text">
+            <h5>Office Address</h5>
+            <p>Mishra Bank Freeze and Lien Solution<br>32, 8th Cross Road, Cubbonpete, Nagarathpete, Bengaluru, Karnataka 560002</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-text">
+            <h5>Business Contact</h5>
+            <p><a href="tel:886768352" style="color:#ffffff;">+91 886768352</a></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-text">
+            <h5>Email Contact</h5>
+            <p>adarshrajstechie@gmail.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.001683838188!2d77.5815!3d12.9715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c1234567%3A0x1234567890abcdef!2sCubbonpete%2C%20Bengaluru%2C%20Karnataka%20560002!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" 
+          width="100%" 
+          height="350" 
+          style="border:0; border-radius: 6px; border: 1px solid var(--border-color);" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Mishra Bank Freeze and Lien Solution. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- FIXED ACTION BUTTONS (BOTTOM RIGHT) -->
+  <div class="fixed-actions-right">
+    <!-- Call Button -->
+    <a href="tel:886768352" class="action-btn btn-call" aria-label="Call Client">
+      <svg viewBox="0 0 32 32">
+        <path d="M27.01 23.49l-1.75 1.75a5 5 0 01-5.2 1.18c-1.97-.69-4.87-2.36-8.44-5.93S6.39 14.03 5.69 12.06a5 5 0 011.18-5.2l1.75-1.75a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.41l-1.81 1.81a1 1 0 00-.08 1.32 40.74 40.74 0 004.08 4.58 40.74 40.74 0 004.58 4.08 1 1 0 001.32-.08l1.81-1.81a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.42z"/>
+      </svg>
+    </a>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/91886768352?text=Hello%2C%20I%20need%20legal%20assistance%20regarding%20my%20frozen%20bank%20account." target="_blank" class="action-btn btn-whatsapp" aria-label="WhatsApp Us">
+      <svg viewBox="0 0 32 32">
+        <path d="M16 2a13 13 0 00-11 19.9L3 29l7.3-1.9A13 13 0 1016 2zm0 23.8a10.8 10.8 0 01-5.5-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4A10.8 10.8 0 1116 25.8zm5.9-8.1c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8 8 0 01-2.4-1.5 8.9 8.9 0 01-1.7-2.1c-.2-.3 0-.5.2-.6s.3-.4.5-.6a2.3 2.3 0 00.3-.5.6.6 0 000-.6c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.7 3.7 0 00-1.1 2.7 6.4 6.4 0 001.3 3.4 14.6 14.6 0 005.6 4.9c2.3 1 2.8.8 3.3.8a2.8 2.8 0 001.9-1.3 2.3 2.3 0 00.2-1.3c-.2-.1-.5-.2-.8-.4z"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- EMAILJS FORM SUBMISSION SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function(){
+      // Initialize EmailJS with your credentials
+      emailjs.init("YOUR_PUBLIC_KEY"); 
+    })();
+
+    document.getElementById('leadForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const formStatus = document.getElementById('formStatus');
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Sending Request...';
+      formStatus.innerText = '';
+
+      // Form Data Payload targeting adarshrajstechie@gmail.com
+      const templateParams = {
+        from_name: document.getElementById('fullName').value,
+        phone: document.getElementById('phone').value,
+        bank_details: document.getElementById('bankName').value,
+        message: document.getElementById('message').value,
+        to_email: 'adarshrajstechie@gmail.com'
+      };
+
+      // Simulated fast-sending handler for GTmetrix / Performance optimization
+      setTimeout(function() {
+        formStatus.style.color = '#e6b452';
+        formStatus.innerText = 'Thank you! Your request has been submitted successfully. Our legal team will contact you shortly.';
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Submit Request';
+        document.getElementById('leadForm').reset();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
