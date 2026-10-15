@@ -1,0 +1,2185 @@
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: **/node_modules/**, **/.next/**, **/dist/**, **/build/**, **/*.lock, **/package-lock.json, **/pnpm-lock.yaml
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.git/
+  hooks/
+    applypatch-msg.sample
+    commit-msg.sample
+    fsmonitor-watchman.sample
+    post-update.sample
+    pre-applypatch.sample
+    pre-commit.sample
+    pre-merge-commit.sample
+    pre-push.sample
+    pre-rebase.sample
+    pre-receive.sample
+    prepare-commit-msg.sample
+    push-to-checkout.sample
+    sendemail-validate.sample
+    update.sample
+  info/
+    exclude
+    refs
+  logs/
+    refs/
+      heads/
+        main
+      remotes/
+        origin/
+          main
+    HEAD
+  objects/
+    info/
+      packs
+    pack/
+      multi-pack-index
+      pack-398297cbb4fbb332f160ce33d167c68e6d4a59e4.idx
+      pack-398297cbb4fbb332f160ce33d167c68e6d4a59e4.pack
+      pack-398297cbb4fbb332f160ce33d167c68e6d4a59e4.rev
+  refs/
+    heads/
+      main
+    remotes/
+      origin/
+        main
+  COMMIT_EDITMSG
+  config
+  description
+  HEAD
+  index
+.vercel/
+  README.txt
+  repo.json
+api/
+  send-email.js
+.env
+.gitignore
+image-1.webp
+image-2.webp
+index.html
+logo.png
+package.json
+repomix.config.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".git/hooks/applypatch-msg.sample">
+#!/bin/sh
+#
+# An example hook script to check the commit log message taken by
+# applypatch from an e-mail message.
+#
+# The hook should exit with non-zero status after issuing an
+# appropriate message if it wants to stop the commit.  The hook is
+# allowed to edit the commit message file.
+#
+# To enable this hook, rename this file to "applypatch-msg".
+
+. git-sh-setup
+commitmsg="$(git rev-parse --git-path hooks/commit-msg)"
+test -x "$commitmsg" && exec "$commitmsg" ${1+"$@"}
+:
+</file>
+
+<file path=".git/hooks/commit-msg.sample">
+#!/bin/sh
+#
+# An example hook script to check the commit log message.
+# Called by "git commit" with one argument, the name of the file
+# that has the commit message.  The hook should exit with non-zero
+# status after issuing an appropriate message if it wants to stop the
+# commit.  The hook is allowed to edit the commit message file.
+#
+# To enable this hook, rename this file to "commit-msg".
+
+# Uncomment the below to add a Signed-off-by line to the message.
+# Doing this in a hook is a bad idea in general, but the prepare-commit-msg
+# hook is more suited to it.
+#
+# SOB=$(git var GIT_AUTHOR_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
+# grep -qs "^$SOB" "$1" || echo "$SOB" >> "$1"
+
+# This example catches duplicate Signed-off-by lines and messages that
+# would confuse 'git am'.
+
+ret=0
+
+test "" = "$(grep '^Signed-off-by: ' "$1" |
+	 sort | uniq -c | sed -e '/^[ 	]*1[ 	]/d')" || {
+	echo >&2 Duplicate Signed-off-by lines.
+	ret=1
+}
+
+comment_re="$(
+	{
+		git config --get-regexp "^core\.comment(char|string)\$" ||
+			echo '#'
+	} | sed -n -e '
+		${
+			s/^[^ ]* //
+			s|[][*./\]|\\&|g
+			s/^auto$/[#;@!$%^&|:]/
+			p
+		}'
+)"
+scissors_line="^${comment_re} -\{8,\} >8 -\{8,\}\$"
+comment_line="^${comment_re}.*"
+blank_line='^[ 	]*$'
+# Disallow lines starting with "diff -" or "Index: " in the body of the
+# message. Stop looking if we see a scissors line.
+line="$(sed -n -e "
+	# Skip comments and blank lines at the start of the file.
+	/${scissors_line}/q
+	/${comment_line}/d
+	/${blank_line}/d
+	# The first paragraph will become the subject header so
+	# does not need to be checked.
+	: subject
+	n
+	/${scissors_line}/q
+	/${blank_line}/!b subject
+	# Check the body of the message for problematic
+	# prefixes.
+	: body
+	n
+	/${scissors_line}/q
+	/${comment_line}/b body
+	/^diff -/{p;q;}
+	/^Index: /{p;q;}
+	b body
+	" "$1")"
+if test -n "$line"
+then
+	echo >&2 "Message contains a diff that will confuse 'git am'."
+	echo >&2 "To fix this indent the diff."
+	ret=1
+fi
+
+exit $ret
+</file>
+
+<file path=".git/hooks/fsmonitor-watchman.sample">
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use IPC::Open2;
+
+# An example hook script to integrate Watchman
+# (https://facebook.github.io/watchman/) with git to speed up detecting
+# new and modified files.
+#
+# The hook is passed a version (currently 2) and last update token
+# formatted as a string and outputs to stdout a new update token and
+# all files that have been modified since the update token. Paths must
+# be relative to the root of the working tree and separated by a single NUL.
+#
+# To enable this hook, rename this file to "query-watchman" and set
+# 'git config core.fsmonitor .git/hooks/query-watchman'
+#
+my ($version, $last_update_token) = @ARGV;
+
+# Uncomment for debugging
+# print STDERR "$0 $version $last_update_token\n";
+
+# Check the hook interface version
+if ($version ne 2) {
+	die "Unsupported query-fsmonitor hook version '$version'.\n" .
+	    "Falling back to scanning...\n";
+}
+
+my $git_work_tree = get_working_dir();
+
+my $json_pkg;
+eval {
+	require JSON::XS;
+	$json_pkg = "JSON::XS";
+	1;
+} or do {
+	require JSON::PP;
+	$json_pkg = "JSON::PP";
+};
+
+launch_watchman();
+
+sub launch_watchman {
+	my $o = watchman_query();
+	if (is_work_tree_watched($o)) {
+		output_result($o->{clock}, @{$o->{files}});
+	}
+}
+
+sub output_result {
+	my ($clockid, @files) = @_;
+
+	# Uncomment for debugging watchman output
+	# open (my $fh, ">", ".git/watchman-output.out");
+	# binmode $fh, ":utf8";
+	# print $fh "$clockid\n@files\n";
+	# close $fh;
+
+	binmode STDOUT, ":utf8";
+	print $clockid;
+	print "\0";
+	local $, = "\0";
+	print @files;
+}
+
+sub watchman_clock {
+	my $response = qx/watchman clock "$git_work_tree"/;
+	die "Failed to get clock id on '$git_work_tree'.\n" .
+		"Falling back to scanning...\n" if $? != 0;
+
+	return $json_pkg->new->utf8->decode($response);
+}
+
+sub watchman_query {
+	my $pid = open2(\*CHLD_OUT, \*CHLD_IN, 'watchman -j --no-pretty')
+	or die "open2() failed: $!\n" .
+	"Falling back to scanning...\n";
+
+	# In the query expression below we're asking for names of files that
+	# changed since $last_update_token but not from the .git folder.
+	#
+	# To accomplish this, we're using the "since" generator to use the
+	# recency index to select candidate nodes and "fields" to limit the
+	# output to file names only. Then we're using the "expression" term to
+	# further constrain the results.
+	my $last_update_line = "";
+	if (substr($last_update_token, 0, 1) eq "c") {
+		$last_update_token = "\"$last_update_token\"";
+		$last_update_line = qq[\n"since": $last_update_token,];
+	}
+	my $query = <<"	END";
+		["query", "$git_work_tree", {$last_update_line
+			"fields": ["name"],
+			"expression": ["not", ["dirname", ".git"]]
+		}]
+	END
+
+	# Uncomment for debugging the watchman query
+	# open (my $fh, ">", ".git/watchman-query.json");
+	# print $fh $query;
+	# close $fh;
+
+	print CHLD_IN $query;
+	close CHLD_IN;
+	my $response = do {local $/; <CHLD_OUT>};
+
+	# Uncomment for debugging the watch response
+	# open ($fh, ">", ".git/watchman-response.json");
+	# print $fh $response;
+	# close $fh;
+
+	die "Watchman: command returned no output.\n" .
+	"Falling back to scanning...\n" if $response eq "";
+	die "Watchman: command returned invalid output: $response\n" .
+	"Falling back to scanning...\n" unless $response =~ /^\{/;
+
+	return $json_pkg->new->utf8->decode($response);
+}
+
+sub is_work_tree_watched {
+	my ($output) = @_;
+	my $error = $output->{error};
+	if ($error and $error =~ m/unable to resolve root .* directory (.*) is not watched/) {
+		my $response = qx/watchman watch "$git_work_tree"/;
+		die "Failed to make watchman watch '$git_work_tree'.\n" .
+		    "Falling back to scanning...\n" if $? != 0;
+		$output = $json_pkg->new->utf8->decode($response);
+		$error = $output->{error};
+		die "Watchman: $error.\n" .
+		"Falling back to scanning...\n" if $error;
+
+		# Uncomment for debugging watchman output
+		# open (my $fh, ">", ".git/watchman-output.out");
+		# close $fh;
+
+		# Watchman will always return all files on the first query so
+		# return the fast "everything is dirty" flag to git and do the
+		# Watchman query just to get it over with now so we won't pay
+		# the cost in git to look up each individual file.
+		my $o = watchman_clock();
+		$error = $o->{error};
+
+		die "Watchman: $error.\n" .
+		"Falling back to scanning...\n" if $error;
+
+		output_result($o->{clock}, ("/"));
+		return 0;
+	}
+
+	die "Watchman: $error.\n" .
+	"Falling back to scanning...\n" if $error;
+
+	return 1;
+}
+
+sub get_working_dir {
+	my $working_dir;
+	if ($^O =~ 'msys' || $^O =~ 'cygwin') {
+		$working_dir = Win32::GetCwd();
+		$working_dir =~ tr/\\/\//;
+	} else {
+		require Cwd;
+		$working_dir = Cwd::cwd();
+	}
+
+	return $working_dir;
+}
+</file>
+
+<file path=".git/hooks/post-update.sample">
+#!/bin/sh
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to "post-update".
+
+exec git update-server-info
+</file>
+
+<file path=".git/hooks/pre-applypatch.sample">
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed
+# by applypatch from an e-mail message.
+#
+# The hook should exit with non-zero status after issuing an
+# appropriate message if it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-applypatch".
+
+. git-sh-setup
+precommit="$(git rev-parse --git-path hooks/pre-commit)"
+test -x "$precommit" && exec "$precommit" ${1+"$@"}
+:
+</file>
+
+<file path=".git/hooks/pre-commit.sample">
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+# If you want to allow non-ASCII filenames set this variable to true.
+allownonascii=$(git config --type=bool hooks.allownonascii)
+
+# Redirect output to stderr.
+exec 1>&2
+
+# Cross platform projects tend to avoid non-ASCII filenames; prevent
+# them from being added to the repository. We exploit the fact that the
+# printable range starts at the space character and ends with tilde.
+if [ "$allownonascii" != "true" ] &&
+	# Note that the use of brackets around a tr range is ok here, (it's
+	# even required, for portability to Solaris 10's /usr/bin/tr), since
+	# the square bracket bytes happen to fall in the designated range.
+	test $(git diff-index --cached --name-only --diff-filter=A -z $against |
+	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
+then
+	cat <<\EOF
+Error: Attempt to add a non-ASCII file name.
+
+This can cause problems if you want to work with people on other platforms.
+
+To be portable it is advisable to rename the file.
+
+If you know what you are doing you can disable this check using:
+
+  git config hooks.allownonascii true
+EOF
+	exit 1
+fi
+
+# If there are whitespace errors, print the offending file names and fail.
+exec git diff-index --check --cached $against --
+</file>
+
+<file path=".git/hooks/pre-merge-commit.sample">
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git merge" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message to
+# stderr if it wants to stop the merge commit.
+#
+# To enable this hook, rename this file to "pre-merge-commit".
+
+. git-sh-setup
+test -x "$GIT_DIR/hooks/pre-commit" &&
+        exec "$GIT_DIR/hooks/pre-commit"
+:
+</file>
+
+<file path=".git/hooks/pre-push.sample">
+#!/bin/sh
+
+# An example hook script to verify what is about to be pushed.  Called by "git
+# push" after it has checked the remote status, but before anything has been
+# pushed.  If this script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local oid> <remote ref> <remote oid>
+#
+# This sample shows how to prevent push of commits where the log message starts
+# with "WIP" (work in progress).
+
+remote="$1"
+url="$2"
+
+zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
+
+while read local_ref local_oid remote_ref remote_oid
+do
+	if test "$local_oid" = "$zero"
+	then
+		# Handle delete
+		:
+	else
+		if test "$remote_oid" = "$zero"
+		then
+			# New branch, examine all commits
+			range="$local_oid"
+		else
+			# Update to existing branch, examine new commits
+			range="$remote_oid..$local_oid"
+		fi
+
+		# Check for WIP commit
+		commit=$(git rev-list -n 1 --grep '^WIP' "$range")
+		if test -n "$commit"
+		then
+			echo >&2 "Found WIP commit in $local_ref, not pushing"
+			exit 1
+		fi
+	fi
+done
+
+exit 0
+</file>
+
+<file path=".git/hooks/pre-rebase.sample">
+#!/bin/sh
+#
+# Copyright (c) 2006, 2008 Junio C Hamano
+#
+# The "pre-rebase" hook is run just before "git rebase" starts doing
+# its job, and can prevent the command from running by exiting with
+# non-zero status.
+#
+# The hook is called with the following parameters:
+#
+# $1 -- the upstream the series was forked from.
+# $2 -- the branch being rebased (or empty when rebasing the current branch).
+#
+# This sample shows how to prevent topic branches that are already
+# merged to 'next' branch from getting rebased, because allowing it
+# would result in rebasing already published history.
+
+publish=next
+basebranch="$1"
+if test "$#" = 2
+then
+	topic="refs/heads/$2"
+else
+	topic=`git symbolic-ref HEAD` ||
+	exit 0 ;# we do not interrupt rebasing detached HEAD
+fi
+
+case "$topic" in
+refs/heads/??/*)
+	;;
+*)
+	exit 0 ;# we do not interrupt others.
+	;;
+esac
+
+# Now we are dealing with a topic branch being rebased
+# on top of master.  Is it OK to rebase it?
+
+# Does the topic really exist?
+git show-ref -q "$topic" || {
+	echo >&2 "No such branch $topic"
+	exit 1
+}
+
+# Is topic fully merged to master?
+not_in_master=`git rev-list --pretty=oneline ^master "$topic"`
+if test -z "$not_in_master"
+then
+	echo >&2 "$topic is fully merged to master; better remove it."
+	exit 1 ;# we could allow it, but there is no point.
+fi
+
+# Is topic ever merged to next?  If so you should not be rebasing it.
+only_next_1=`git rev-list ^master "^$topic" ${publish} | sort`
+only_next_2=`git rev-list ^master           ${publish} | sort`
+if test "$only_next_1" = "$only_next_2"
+then
+	not_in_topic=`git rev-list "^$topic" master`
+	if test -z "$not_in_topic"
+	then
+		echo >&2 "$topic is already up to date with master"
+		exit 1 ;# we could allow it, but there is no point.
+	else
+		exit 0
+	fi
+else
+	not_in_next=`git rev-list --pretty=oneline ^${publish} "$topic"`
+	/usr/bin/perl -e '
+		my $topic = $ARGV[0];
+		my $msg = "* $topic has commits already merged to public branch:\n";
+		my (%not_in_next) = map {
+			/^([0-9a-f]+) /;
+			($1 => 1);
+		} split(/\n/, $ARGV[1]);
+		for my $elem (map {
+				/^([0-9a-f]+) (.*)$/;
+				[$1 => $2];
+			} split(/\n/, $ARGV[2])) {
+			if (!exists $not_in_next{$elem->[0]}) {
+				if ($msg) {
+					print STDERR $msg;
+					undef $msg;
+				}
+				print STDERR " $elem->[1]\n";
+			}
+		}
+	' "$topic" "$not_in_next" "$not_in_master"
+	exit 1
+fi
+
+<<\DOC_END
+
+This sample hook safeguards topic branches that have been
+published from being rewound.
+
+The workflow assumed here is:
+
+ * Once a topic branch forks from "master", "master" is never
+   merged into it again (either directly or indirectly).
+
+ * Once a topic branch is fully cooked and merged into "master",
+   it is deleted.  If you need to build on top of it to correct
+   earlier mistakes, a new topic branch is created by forking at
+   the tip of the "master".  This is not strictly necessary, but
+   it makes it easier to keep your history simple.
+
+ * Whenever you need to test or publish your changes to topic
+   branches, merge them into "next" branch.
+
+The script, being an example, hardcodes the publish branch name
+to be "next", but it is trivial to make it configurable via
+$GIT_DIR/config mechanism.
+
+With this workflow, you would want to know:
+
+(1) ... if a topic branch has ever been merged to "next".  Young
+    topic branches can have stupid mistakes you would rather
+    clean up before publishing, and things that have not been
+    merged into other branches can be easily rebased without
+    affecting other people.  But once it is published, you would
+    not want to rewind it.
+
+(2) ... if a topic branch has been fully merged to "master".
+    Then you can delete it.  More importantly, you should not
+    build on top of it -- other people may already want to
+    change things related to the topic as patches against your
+    "master", so if you need further changes, it is better to
+    fork the topic (perhaps with the same name) afresh from the
+    tip of "master".
+
+Let's look at this example:
+
+		   o---o---o---o---o---o---o---o---o---o "next"
+		  /       /           /           /
+		 /   a---a---b A     /           /
+		/   /               /           /
+	       /   /   c---c---c---c B         /
+	      /   /   /             \         /
+	     /   /   /   b---b C     \       /
+	    /   /   /   /             \     /
+    ---o---o---o---o---o---o---o---o---o---o---o "master"
+
+
+A, B and C are topic branches.
+
+ * A has one fix since it was merged up to "next".
+
+ * B has finished.  It has been fully merged up to "master" and "next",
+   and is ready to be deleted.
+
+ * C has not merged to "next" at all.
+
+We would want to allow C to be rebased, refuse A, and encourage
+B to be deleted.
+
+To compute (1):
+
+	git rev-list ^master ^topic next
+	git rev-list ^master        next
+
+	if these match, topic has not merged in next at all.
+
+To compute (2):
+
+	git rev-list master..topic
+
+	if this is empty, it is fully merged to "master".
+
+DOC_END
+</file>
+
+<file path=".git/hooks/pre-receive.sample">
+#!/bin/sh
+#
+# An example hook script to make use of push options.
+# The example simply echoes all push options that start with 'echoback='
+# and rejects all pushes when the "reject" push option is used.
+#
+# To enable this hook, rename this file to "pre-receive".
+
+if test -n "$GIT_PUSH_OPTION_COUNT"
+then
+	i=0
+	while test "$i" -lt "$GIT_PUSH_OPTION_COUNT"
+	do
+		eval "value=\$GIT_PUSH_OPTION_$i"
+		case "$value" in
+		echoback=*)
+			echo "echo from the pre-receive-hook: ${value#*=}" >&2
+			;;
+		reject)
+			exit 1
+		esac
+		i=$((i + 1))
+	done
+fi
+</file>
+
+<file path=".git/hooks/prepare-commit-msg.sample">
+#!/bin/sh
+#
+# An example hook script to prepare the commit log message.
+# Called by "git commit" with the name of the file that has the
+# commit message, followed by the description of the commit
+# message's source.  The hook's purpose is to edit the commit
+# message file.  If the hook fails with a non-zero status,
+# the commit is aborted.
+#
+# To enable this hook, rename this file to "prepare-commit-msg".
+
+# This hook includes three examples. The first one removes the
+# "# Please enter the commit message..." help message.
+#
+# The second includes the output of "git diff --name-status -r"
+# into the message, just before the "git status" output.  It is
+# commented because it doesn't cope with --amend or with squashed
+# commits.
+#
+# The third example adds a Signed-off-by line to the message, that can
+# still be edited.  This is rarely a good idea.
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+/usr/bin/perl -i.bak -ne 'print unless(m/^. Please enter the commit message/..m/^#$/)' "$COMMIT_MSG_FILE"
+
+# case "$COMMIT_SOURCE,$SHA1" in
+#  ,|template,)
+#    /usr/bin/perl -i.bak -pe '
+#       print "\n" . `git diff --cached --name-status -r`
+# 	 if /^#/ && $first++ == 0' "$COMMIT_MSG_FILE" ;;
+#  *) ;;
+# esac
+
+# SOB=$(git var GIT_COMMITTER_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
+# git interpret-trailers --in-place --trailer "$SOB" "$COMMIT_MSG_FILE"
+# if test -z "$COMMIT_SOURCE"
+# then
+#   /usr/bin/perl -i.bak -pe 'print "\n" if !$first_line++' "$COMMIT_MSG_FILE"
+# fi
+</file>
+
+<file path=".git/hooks/push-to-checkout.sample">
+#!/bin/sh
+
+# An example hook script to update a checked-out tree on a git push.
+#
+# This hook is invoked by git-receive-pack(1) when it reacts to git
+# push and updates reference(s) in its repository, and when the push
+# tries to update the branch that is currently checked out and the
+# receive.denyCurrentBranch configuration variable is set to
+# updateInstead.
+#
+# By default, such a push is refused if the working tree and the index
+# of the remote repository has any difference from the currently
+# checked out commit; when both the working tree and the index match
+# the current commit, they are updated to match the newly pushed tip
+# of the branch. This hook is to be used to override the default
+# behaviour; however the code below reimplements the default behaviour
+# as a starting point for convenient modification.
+#
+# The hook receives the commit with which the tip of the current
+# branch is going to be updated:
+commit=$1
+
+# It can exit with a non-zero status to refuse the push (when it does
+# so, it must not modify the index or the working tree).
+die () {
+	echo >&2 "$*"
+	exit 1
+}
+
+# Or it can make any necessary changes to the working tree and to the
+# index to bring them to the desired state when the tip of the current
+# branch is updated to the new commit, and exit with a zero status.
+#
+# For example, the hook can simply run git read-tree -u -m HEAD "$1"
+# in order to emulate git fetch that is run in the reverse direction
+# with git push, as the two-tree form of git read-tree -u -m is
+# essentially the same as git switch or git checkout that switches
+# branches while keeping the local changes in the working tree that do
+# not interfere with the difference between the branches.
+
+# The below is a more-or-less exact translation to shell of the C code
+# for the default behaviour for git's push-to-checkout hook defined in
+# the push_to_deploy() function in builtin/receive-pack.c.
+#
+# Note that the hook will be executed from the repository directory,
+# not from the working tree, so if you want to perform operations on
+# the working tree, you will have to adapt your code accordingly, e.g.
+# by adding "cd .." or using relative paths.
+
+if ! git update-index -q --ignore-submodules --refresh
+then
+	die "Up-to-date check failed"
+fi
+
+if ! git diff-files --quiet --ignore-submodules --
+then
+	die "Working directory has unstaged changes"
+fi
+
+# This is a rough translation of:
+#
+#   head_has_history() ? "HEAD" : EMPTY_TREE_SHA1_HEX
+if git cat-file -e HEAD 2>/dev/null
+then
+	head=HEAD
+else
+	head=$(git hash-object -t tree --stdin </dev/null)
+fi
+
+if ! git diff-index --quiet --cached --ignore-submodules $head --
+then
+	die "Working directory has staged changes"
+fi
+
+if ! git read-tree -u -m "$commit"
+then
+	die "Could not update working tree to new HEAD"
+fi
+</file>
+
+<file path=".git/hooks/sendemail-validate.sample">
+#!/bin/sh
+
+# An example hook script to validate a patch (and/or patch series) before
+# sending it via email.
+#
+# The hook should exit with non-zero status after issuing an appropriate
+# message if it wants to prevent the email(s) from being sent.
+#
+# To enable this hook, rename this file to "sendemail-validate".
+#
+# By default, it will only check that the patch(es) can be applied on top of
+# the default upstream branch without conflicts in a secondary worktree. After
+# validation (successful or not) of the last patch of a series, the worktree
+# will be deleted.
+#
+# The following config variables can be set to change the default remote and
+# remote ref that are used to apply the patches against:
+#
+#   sendemail.validateRemote (default: origin)
+#   sendemail.validateRemoteRef (default: HEAD)
+#
+# Replace the TODO placeholders with appropriate checks according to your
+# needs.
+
+validate_cover_letter () {
+	file="$1"
+	# TODO: Replace with appropriate checks (e.g. spell checking).
+	true
+}
+
+validate_patch () {
+	file="$1"
+	# Ensure that the patch applies without conflicts.
+	git am -3 "$file" || return
+	# TODO: Replace with appropriate checks for this patch
+	# (e.g. checkpatch.pl).
+	true
+}
+
+validate_series () {
+	# TODO: Replace with appropriate checks for the whole series
+	# (e.g. quick build, coding style checks, etc.).
+	true
+}
+
+# main -------------------------------------------------------------------------
+
+if test "$GIT_SENDEMAIL_FILE_COUNTER" = 1
+then
+	remote=$(git config --default origin --get sendemail.validateRemote) &&
+	ref=$(git config --default HEAD --get sendemail.validateRemoteRef) &&
+	worktree=$(mktemp --tmpdir -d sendemail-validate.XXXXXXX) &&
+	git worktree add -fd --checkout "$worktree" "refs/remotes/$remote/$ref" &&
+	git config --replace-all sendemail.validateWorktree "$worktree"
+else
+	worktree=$(git config --get sendemail.validateWorktree)
+fi || {
+	echo "sendemail-validate: error: failed to prepare worktree" >&2
+	exit 1
+}
+
+unset GIT_DIR GIT_WORK_TREE
+cd "$worktree" &&
+
+if grep -q "^diff --git " "$1"
+then
+	validate_patch "$1"
+else
+	validate_cover_letter "$1"
+fi &&
+
+if test "$GIT_SENDEMAIL_FILE_COUNTER" = "$GIT_SENDEMAIL_FILE_TOTAL"
+then
+	git config --unset-all sendemail.validateWorktree &&
+	trap 'git worktree remove -ff "$worktree"' EXIT &&
+	validate_series
+fi
+</file>
+
+<file path=".git/hooks/update.sample">
+#!/bin/sh
+#
+# An example hook script to block unannotated tags from entering.
+# Called by "git receive-pack" with arguments: refname sha1-old sha1-new
+#
+# To enable this hook, rename this file to "update".
+#
+# Config
+# ------
+# hooks.allowunannotated
+#   This boolean sets whether unannotated tags will be allowed into the
+#   repository.  By default they won't be.
+# hooks.allowdeletetag
+#   This boolean sets whether deleting tags will be allowed in the
+#   repository.  By default they won't be.
+# hooks.allowmodifytag
+#   This boolean sets whether a tag may be modified after creation. By default
+#   it won't be.
+# hooks.allowdeletebranch
+#   This boolean sets whether deleting branches will be allowed in the
+#   repository.  By default they won't be.
+# hooks.denycreatebranch
+#   This boolean sets whether remotely creating branches will be denied
+#   in the repository.  By default this is allowed.
+#
+
+# --- Command line
+refname="$1"
+oldrev="$2"
+newrev="$3"
+
+# --- Safety check
+if [ -z "$GIT_DIR" ]; then
+	echo "Don't run this script from the command line." >&2
+	echo " (if you want, you could supply GIT_DIR then run" >&2
+	echo "  $0 <ref> <oldrev> <newrev>)" >&2
+	exit 1
+fi
+
+if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
+	echo "usage: $0 <ref> <oldrev> <newrev>" >&2
+	exit 1
+fi
+
+# --- Config
+allowunannotated=$(git config --type=bool hooks.allowunannotated)
+allowdeletebranch=$(git config --type=bool hooks.allowdeletebranch)
+denycreatebranch=$(git config --type=bool hooks.denycreatebranch)
+allowdeletetag=$(git config --type=bool hooks.allowdeletetag)
+allowmodifytag=$(git config --type=bool hooks.allowmodifytag)
+
+# check for no description
+projectdesc=$(sed -e '1q' "$GIT_DIR/description")
+case "$projectdesc" in
+"Unnamed repository"* | "")
+	echo "*** Project description file hasn't been set" >&2
+	exit 1
+	;;
+esac
+
+# --- Check types
+# if $newrev is 0000...0000, it's a commit to delete a ref.
+zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
+if [ "$newrev" = "$zero" ]; then
+	newrev_type=delete
+else
+	newrev_type=$(git cat-file -t $newrev)
+fi
+
+case "$refname","$newrev_type" in
+	refs/tags/*,commit)
+		# un-annotated tag
+		short_refname=${refname##refs/tags/}
+		if [ "$allowunannotated" != "true" ]; then
+			echo "*** The un-annotated tag, $short_refname, is not allowed in this repository" >&2
+			echo "*** Use 'git tag [ -a | -s ]' for tags you want to propagate." >&2
+			exit 1
+		fi
+		;;
+	refs/tags/*,delete)
+		# delete tag
+		if [ "$allowdeletetag" != "true" ]; then
+			echo "*** Deleting a tag is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	refs/tags/*,tag)
+		# annotated tag
+		if [ "$allowmodifytag" != "true" ] && git rev-parse $refname > /dev/null 2>&1
+		then
+			echo "*** Tag '$refname' already exists." >&2
+			echo "*** Modifying a tag is not allowed in this repository." >&2
+			exit 1
+		fi
+		;;
+	refs/heads/*,commit)
+		# branch
+		if [ "$oldrev" = "$zero" -a "$denycreatebranch" = "true" ]; then
+			echo "*** Creating a branch is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	refs/heads/*,delete)
+		# delete branch
+		if [ "$allowdeletebranch" != "true" ]; then
+			echo "*** Deleting a branch is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	refs/remotes/*,commit)
+		# tracking branch
+		;;
+	refs/remotes/*,delete)
+		# delete tracking branch
+		if [ "$allowdeletebranch" != "true" ]; then
+			echo "*** Deleting a tracking branch is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	*)
+		# Anything else (is there anything else?)
+		echo "*** Update hook: unknown type of update to ref $refname of type $newrev_type" >&2
+		exit 1
+		;;
+esac
+
+# --- Finished
+exit 0
+</file>
+
+<file path=".git/info/exclude">
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+</file>
+
+<file path=".git/info/refs">
+a2e6bacd6b91c51465189ef78a5c1bc6e11d26bd	refs/heads/main
+4e6f5865ee4cd416c0d80aa985f986fd9c3e4d37	refs/remotes/origin/main
+</file>
+
+<file path=".git/logs/refs/heads/main">
+0000000000000000000000000000000000000000 4112f4f305eb85701b88b0962d6db39f5dd40c3c 4bizdeveloper <4bizdeveloper@gmail.com> 1792052361 +0530	commit (initial): today
+4112f4f305eb85701b88b0962d6db39f5dd40c3c 4112f4f305eb85701b88b0962d6db39f5dd40c3c 4bizdeveloper <4bizdeveloper@gmail.com> 1792052364 +0530	Branch: renamed refs/heads/main to refs/heads/main
+4112f4f305eb85701b88b0962d6db39f5dd40c3c 8c14fc72cb852550abda93ee969505127f0f899b 4bizdeveloper <4bizdeveloper@gmail.com> 1792052685 +0530	commit: today
+8c14fc72cb852550abda93ee969505127f0f899b 4e6f5865ee4cd416c0d80aa985f986fd9c3e4d37 4bizdeveloper <4bizdeveloper@gmail.com> 1792054207 +0530	commit: today
+4e6f5865ee4cd416c0d80aa985f986fd9c3e4d37 a2e6bacd6b91c51465189ef78a5c1bc6e11d26bd 4bizdeveloper <4bizdeveloper@gmail.com> 1792056486 +0530	commit: today
+</file>
+
+<file path=".git/logs/refs/remotes/origin/main">
+0000000000000000000000000000000000000000 4112f4f305eb85701b88b0962d6db39f5dd40c3c 4bizdeveloper <4bizdeveloper@gmail.com> 1792052383 +0530	update by push
+4112f4f305eb85701b88b0962d6db39f5dd40c3c 8c14fc72cb852550abda93ee969505127f0f899b 4bizdeveloper <4bizdeveloper@gmail.com> 1792052700 +0530	update by push
+8c14fc72cb852550abda93ee969505127f0f899b 4e6f5865ee4cd416c0d80aa985f986fd9c3e4d37 4bizdeveloper <4bizdeveloper@gmail.com> 1792054216 +0530	update by push
+4e6f5865ee4cd416c0d80aa985f986fd9c3e4d37 a2e6bacd6b91c51465189ef78a5c1bc6e11d26bd 4bizdeveloper <4bizdeveloper@gmail.com> 1792056497 +0530	update by push
+</file>
+
+<file path=".git/logs/HEAD">
+0000000000000000000000000000000000000000 4112f4f305eb85701b88b0962d6db39f5dd40c3c 4bizdeveloper <4bizdeveloper@gmail.com> 1792052361 +0530	commit (initial): today
+4112f4f305eb85701b88b0962d6db39f5dd40c3c 0000000000000000000000000000000000000000 4bizdeveloper <4bizdeveloper@gmail.com> 1792052364 +0530	Branch: renamed refs/heads/main to refs/heads/main
+4112f4f305eb85701b88b0962d6db39f5dd40c3c 4112f4f305eb85701b88b0962d6db39f5dd40c3c 4bizdeveloper <4bizdeveloper@gmail.com> 1792052364 +0530	Branch: renamed refs/heads/main to refs/heads/main
+4112f4f305eb85701b88b0962d6db39f5dd40c3c 8c14fc72cb852550abda93ee969505127f0f899b 4bizdeveloper <4bizdeveloper@gmail.com> 1792052685 +0530	commit: today
+8c14fc72cb852550abda93ee969505127f0f899b 4e6f5865ee4cd416c0d80aa985f986fd9c3e4d37 4bizdeveloper <4bizdeveloper@gmail.com> 1792054207 +0530	commit: today
+4e6f5865ee4cd416c0d80aa985f986fd9c3e4d37 a2e6bacd6b91c51465189ef78a5c1bc6e11d26bd 4bizdeveloper <4bizdeveloper@gmail.com> 1792056486 +0530	commit: today
+</file>
+
+<file path=".git/objects/info/packs">
+P pack-398297cbb4fbb332f160ce33d167c68e6d4a59e4.pack
+</file>
+
+<file path=".git/refs/heads/main">
+a2e6bacd6b91c51465189ef78a5c1bc6e11d26bd
+</file>
+
+<file path=".git/refs/remotes/origin/main">
+a2e6bacd6b91c51465189ef78a5c1bc6e11d26bd
+</file>
+
+<file path=".git/COMMIT_EDITMSG">
+today
+</file>
+
+<file path=".git/config">
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/adarshrajstechie/praveenmishra-landing-page.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+</file>
+
+<file path=".git/description">
+Unnamed repository; edit this file 'description' to name the repository.
+</file>
+
+<file path=".git/HEAD">
+ref: refs/heads/main
+</file>
+
+<file path=".vercel/README.txt">
+> Why do I have a folder named ".vercel" in my project?
+The ".vercel" folder is created when you link a directory to a Vercel project.
+
+> What does the "project.json" file contain?
+The "project.json" file contains:
+- The ID of the Vercel project that you linked ("projectId")
+- The ID of the user or team your Vercel project is owned by ("orgId")
+
+> Should I commit the ".vercel" folder?
+No, you should not share the ".vercel" folder with anyone.
+Upon creation, it will be automatically added to your ".gitignore" file.
+</file>
+
+<file path=".vercel/repo.json">
+{
+  "remoteName": "origin",
+  "projects": [
+    {
+      "id": "prj_GsxeuCh7VbcoqR5vKngwhiqFjYW8",
+      "name": "praveenmishra-landing-page",
+      "directory": ".",
+      "orgId": "team_UDaQDKjfqHIyst70yT1gCjRD"
+    }
+  ]
+}
+</file>
+
+<file path=".env">
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=myworktestingquick@gmail.com
+SMTP_PASS=lccqcpjtfcmsayhe
+TO_EMAIL=mishraadvocateschambers@gmail.com
+</file>
+
+<file path="repomix.config.json">
+{
+  "output": {
+    "filePath": "repomix-output.txt",
+    "style": "xml"
+  },
+  "ignore": {
+    "useGitignore": false,
+    "useDefaultPatterns": false,
+    "customPatterns": [
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/*.lock",
+      "**/package-lock.json",
+      "**/pnpm-lock.yaml"
+    ]
+  }
+}
+</file>
+
+<file path="api/send-email.js">
+const nodemailer = require('nodemailer');
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405.json({ success: false, message: 'Method not allowed' }));
+  }
+
+  const { fullName, phone, bankName, message } = req.body;
+
+  if (!fullName || !phone) {
+    return res.status(400).json({ success: false, message: 'Name and phone number are required.' });
+  }
+
+  // Configure Nodemailer transporter using SMTP credentials from environment variables
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: Number(process.env.SMTP_PORT) || 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `"Mishra Legal Website" <${process.env.SMTP_USER}>`,
+    to: process.env.TO_EMAIL,
+    subject: `New Legal Consultation Request from ${fullName}`,
+    text: `
+      You have received a new consultation request:
+      
+      Full Name: ${fullName}
+      Phone Number: ${phone}
+      Bank Name & Freeze Type: ${bankName || 'Not provided'}
+      Message/Details: ${message || 'Not provided'}
+    `,
+    html: `
+      <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; border-radius: 5px;">
+        <h2 style="color: #111111; border-bottom: 2px solid #e6b452; padding-bottom: 10px;">New Consultation Request</h2>
+        <p><strong>Full Name:</strong> ${fullName}</p>
+        <p><strong>Phone Number:</strong> ${phone}</p>
+        <p><strong>Bank Name & Freeze Type:</strong> ${bankName || 'Not provided'}</p>
+        <p><strong>Details / Incident Description:</strong></p>
+        <p style="background: #fff; padding: 15px; border-left: 4px solid #e6b452; border-radius: 4px;">${message || 'Not provided'}</p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return res.status(200).json({ success: true, message: 'Email sent successfully!' });
+  } catch (error) {
+    console.error('SMTP Error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to send email. Please try again later.' });
+  }
+}
+</file>
+
+<file path=".gitignore">
+.vercel
+.env*
+</file>
+
+<file path="package.json">
+{
+  "dependencies": {
+    "nodemailer": "^10.1.1"
+  }
+}
+</file>
+
+<file path="index.html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mishra Bank Freeze & Lien Solution | Legal Representation Bengaluru</title>
+  <meta name="description" content="Expert legal assistance for Bank Account Freeze and Cyber Cell Lien Removal in Bengaluru. Professional High Court Legal Representation." />
+  
+  <!-- Favicon / Site Icon -->
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <!-- Fonts: Inter for Body, Times New Roman for Titles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       GLOBAL RESET & BRAND STYLES
+       Primary/Brand: #111111
+       Secondary/Accent: #e6b452
+       Title Font: 'Times New Roman', Times, serif
+       Normal Font: 'Inter', sans-serif
+    ===================================================== */
+    :root {
+      --bg-primary: #111111;
+      --bg-card: #181818;
+      --bg-card-light: #222222;
+      --color-gold: #e6b452;
+      --color-gold-hover: #d4a242;
+      --color-text: #f0f0f0;
+      --color-muted: #a0a0a0;
+      --border-color: rgba(230, 180, 82, 0.25);
+      --font-title: 'Times New Roman', Times, Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--color-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .brand-title, .section-heading {
+      font-family: var(--font-title);
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--color-gold);
+      color: #000000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 4px;
+      border: 1px solid var(--color-gold);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: transparent;
+      color: var(--color-gold);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--color-gold);
+      border: 1px solid var(--color-gold);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--color-gold);
+      color: #000000;
+    }
+
+    /* =====================================================
+       HEADER (UNFIXED / SCROLLS NORMALLY)
+    ===================================================== */
+    header {
+      background-color: rgba(17, 17, 17, 0.98);
+      position: relative; /* Unfixed header */
+      top: auto;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 0;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo-box {
+      display: flex;
+      align-items: center;
+      padding: 4px 0;
+      overflow: visible;
+    }
+
+    .brand-logo-img {
+      height: 80px; /* Increased height for full clarity of bottom text */
+      width: auto;
+      object-fit: contain;
+      display: block;
+      transform: scale(1.15); /* Zoomed for legibility */
+      transform-origin: left center;
+      transition: transform 0.3s ease;
+    }
+
+    .header-phone {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--color-gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    /* =====================================================
+       HERO SECTION (META ADS OPTIMIZED)
+    ===================================================== */
+    .hero {
+      padding: 80px 0 60px;
+      background: linear-gradient(180deg, rgba(17,17,17,0.85) 0%, rgba(17,17,17,1) 100%), 
+                  url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      color: var(--color-gold);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.3rem, 4vw, 3.5rem);
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--color-gold);
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--color-muted);
+      margin-bottom: 30px;
+    }
+
+    .hero-features {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+
+    .hero-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .hero-features li::before {
+      content: "✓";
+      color: var(--color-gold);
+      font-weight: bold;
+    }
+
+    /* Lead Form Box */
+    .form-card {
+      background-color: var(--bg-card);
+      padding: 35px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .form-card h3 {
+      font-size: 1.8rem;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .form-card p {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      color: #dddddd;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: var(--bg-primary);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--color-gold);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .form-status {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    /* =====================================================
+       ALTERNATING FEATURE SECTIONS
+    ===================================================== */
+    .feature-row-section {
+      padding: 80px 0;
+      background-color: var(--bg-primary);
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      margin-bottom: 70px;
+    }
+
+    .feature-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .feature-row.alternate {
+      direction: rtl;
+    }
+
+    .feature-row.alternate > * {
+      direction: ltr;
+    }
+
+    .feature-img-box img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .feature-content h2 {
+      font-size: 2.2rem;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
+
+    .feature-content h2 span {
+      color: var(--color-gold);
+    }
+
+    .feature-content p {
+      color: var(--color-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    /* =====================================================
+       STATS BAR
+    ===================================================== */
+    .stats-bar {
+      background-color: var(--color-gold);
+      color: #111111;
+      padding: 30px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      gap: 20px;
+    }
+
+    .stat-item h2 {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .stat-item p {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* =====================================================
+       SERVICES / SOLUTIONS
+    ===================================================== */
+    .services {
+      padding: 80px 0;
+      background-color: var(--bg-primary);
+    }
+
+    .section-title-box {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px;
+    }
+
+    .section-title-box h2 {
+      font-size: 2.5rem;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
+
+    .section-title-box p {
+      color: var(--color-muted);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background-color: var(--bg-card);
+      padding: 30px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-gold);
+    }
+
+    .service-card h3 {
+      font-size: 1.4rem;
+      color: var(--color-gold);
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: var(--color-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    /* =====================================================
+       WHY CHOOSE US
+    ===================================================== */
+    .why-us {
+      padding: 80px 0;
+      background-color: var(--bg-card);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .why-box {
+      padding: 25px;
+      background-color: var(--bg-primary);
+      border-left: 3px solid var(--color-gold);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .why-box h4 {
+      font-size: 1.25rem;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .why-box p {
+      font-size: 0.88rem;
+      color: var(--color-muted);
+    }
+
+    /* =====================================================
+       CONTACT & MAP SECTION
+    ===================================================== */
+    .contact-section {
+      padding: 80px 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+
+    .contact-info h2 {
+      font-size: 2.3rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--color-gold);
+      color: var(--color-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+
+    .contact-text h5 {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--color-gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .contact-text p {
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    /* =====================================================
+       FIXED BOTTOM RIGHT ACTION BUTTONS (CALL & WHATSAPP)
+    ===================================================== */
+    .fixed-actions-right {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .action-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-call {
+      background-color: #008A00;
+      color: #ffffff;
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: #ffffff;
+    }
+
+    .action-btn svg {
+      width: 26px;
+      height: 26px;
+      fill: currentColor;
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    footer {
+      background-color: #080808;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 40px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+
+    /* =====================================================
+       RESPONSIVE DESIGN (MOBILE, TABLET, DESKTOP)
+    ===================================================== */
+    @media (max-width: 992px) {
+      .hero-grid, .contact-grid, .feature-row {
+        grid-template-columns: 1fr;
+      }
+      .feature-row.alternate {
+        direction: ltr;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+      .brand-logo-img {
+        height: 68px;
+        transform: scale(1.1);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 10px 0;
+      }
+      .header-container {
+        justify-content: space-between;
+      }
+      .brand-logo-img {
+        height: 58px;
+        transform: scale(1.08);
+      }
+      .header-phone {
+        font-size: 0.9rem;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .form-card {
+        padding: 22px;
+      }
+      .fixed-actions-right {
+        bottom: 15px;
+        right: 15px;
+      }
+      .action-btn {
+        width: 46px;
+        height: 46px;
+      }
+      .action-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .brand-logo-img {
+        height: 50px;
+        transform: scale(1);
+      }
+      .header-phone {
+        font-size: 0.82rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (UNFIXED & RESPONSIVE) -->
+  <header>
+    <div class="container header-container">
+      <div class="logo-box">
+        <a href="/">
+          <img src="logo.png" alt="Mishra Bank Freeze & Lien Solution Logo" class="brand-logo-img" />
+        </a>
+      </div>
+      <a href="tel:886768352" class="header-phone">
+        <span>📞</span> +91 886768352
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="hero-tag">High Court Legal Assistance</span>
+        <h1>Is Your Bank Account <span>Frozen or Placed on Lien?</span></h1>
+        <p>Immediate, legally backed resolution for Cyber Cell bank account freezes, P2P transaction holds, and illegal debit restrictions in Bengaluru.</p>
+        
+        <ul class="hero-features">
+          <li>Unfreeze Bank Accounts & Remove Cyber Lien Notices</li>
+          <li>Representation Before Cyber Crime Police & High Court</li>
+          <li>Fast-Track Legal Relief for P2P & Online Traders</li>
+          <li>Direct Legal Consultation with Experienced Advocates</li>
+        </ul>
+      </div>
+
+      <!-- LEAD FORM -->
+      <div class="form-card" id="contact-form-section">
+        <h3>Request Free Legal Advice</h3>
+        <p>Fill out the form below to initiate account unfreezing</p>
+
+        <form id="leadForm">
+          <div class="form-group">
+            <label for="fullName">Full Name *</label>
+            <input type="text" id="fullName" class="form-control" placeholder="Enter your name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" class="form-control" placeholder="Enter mobile number" required />
+          </div>
+
+          <div class="form-group">
+            <label for="bankName">Bank Name & Freeze Type</label>
+            <input type="text" id="bankName" class="form-control" placeholder="e.g. HDFC / Cyber Cell Notice" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Details / Incident Description</label>
+            <textarea id="message" class="form-control" placeholder="Briefly describe your case..."></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn submit-btn">Submit Request</button>
+          <div id="formStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALTERNATING FEATURE SECTIONS -->
+  <section class="feature-row-section">
+    <div class="container">
+      
+      <!-- Row 1: Image on Left -->
+      <div class="feature-row">
+        <div class="feature-img-box">
+          <img src="image-1.webp" alt="Legal Consultation and Representation" loading="lazy" />
+        </div>
+        <div class="feature-content">
+          <h2>Professional Representation for <span>Cyber Cell Freezes</span></h2>
+          <p>When law enforcement agencies mark a lien or freeze your operating bank accounts, it halts your business and personal finances. Our expert legal team intervenes promptly to communicate with investigating officers, file required representations, and secure speedy NOCs.</p>
+          <a href="#contact-form-section" class="btn">Get Immediate Help</a>
+        </div>
+      </div>
+
+      <!-- Row 2: Image on Right -->
+      <div class="feature-row alternate">
+        <div class="feature-img-box">
+          <img src="image-2.webp" alt="High Court Litigation and Documentation" loading="lazy" />
+        </div>
+        <div class="feature-content">
+          <h2>High Court Redressal & <span>Legal Compliance</span></h2>
+          <p>If cyber cells or banks fail to lift arbitrary holds under CrPC provisions, we draft and file Writ Petitions before the Hon'ble High Court. We ensure complete compliance and transparent legal processes to restore full access to your funds safely.</p>
+          <a href="#contact-form-section" class="btn btn-outline">Consult Advocate</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar">
+    <div class="container stats-grid">
+      <div class="stat-item">
+        <h2>100%</h2>
+        <p>Legal Compliance</p>
+      </div>
+      <div class="stat-item">
+        <h2>Fast</h2>
+        <p>Turnaround Relief</p>
+      </div>
+      <div class="stat-item">
+        <h2>Cyber Law</h2>
+        <p>Specialized Team</p>
+      </div>
+      <div class="stat-item">
+        <h2>BLR</h2>
+        <p>Bengaluru High Court</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section class="services">
+    <div class="container">
+      <div class="section-title-box">
+        <h2>Our Core Practice Areas</h2>
+        <p>We provide legal remedies to lift bank account restrictions imposed by Law Enforcement Agencies (LEAs) and Cyber Cells across India.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>Cyber Cell Bank Freeze</h3>
+          <p>Assistance in getting NOCs from State/Central Cyber Cells and drafting legal representations to police authorities.</p>
+        </div>
+
+        <div class="service-card">
+          <h3>P2P / Crypto Freeze Relief</h3>
+          <p>Legal defense for account freezes arising from P2P cryptocurrency trading transactions or disputed third-party deposits.</p>
+        </div>
+
+        <div class="service-card">
+          <h3>Lien Removal Services</h3>
+          <p>Removing partial or full debit liens marked on bank accounts under Section 102 CrPC / BNSS compliance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-us">
+    <div class="container">
+      <div class="section-title-box">
+        <h2>Why Choose Mishra Legal Solutions</h2>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-box">
+          <h4>Experienced Representation</h4>
+          <p>Direct oversight by Advocates with deep expertise in High Court & Cyber Law proceedings.</p>
+        </div>
+        <div class="why-box">
+          <h4>End-to-End Case Tracking</h4>
+          <p>We handle everything from liaisoning with Cyber Cells to obtaining formal Bank Clearance Letters.</p>
+        </div>
+        <div class="why-box">
+          <h4>Transparent & Fast Execution</h4>
+          <p>Clear, upfront legal advice with high priority given to emergency freeze cases.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT DETAILS SECTION -->
+  <section class="contact-section">
+    <div class="container contact-grid">
+      <div class="contact-info">
+        <h2>Contact Our Office</h2>
+        <p style="color: var(--color-muted); margin-bottom: 30px;">Reach out directly for urgent bank freeze resolution and consultation.</p>
+
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-text">
+            <h5>Office Address</h5>
+            <p>Mishra Bank Freeze and Lien Solution<br>32, 8th Cross Road, Cubbonpete, Nagarathpete, Bengaluru, Karnataka 560002</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-text">
+            <h5>Business Contact</h5>
+            <p><a href="tel:886768352" style="color:#ffffff;">+91 886768352</a></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-text">
+            <h5>Email Contact</h5>
+            <p>mishraadvocateschambers@gmail.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7776.123922049008!2d77.585576!3d12.967887!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1792a5670289%3A0x71f720ab60479c44!2sMishra%20Cyber%20Lawyer%20-%20Best%20Cyber%20Crime%20Lawyer%20in%20Bangalore!5e0!3m2!1sen!2sin!4v1792054272063!5m2!1sen!2sin" 
+          width="100%" 
+          height="350" 
+          style="border:0; border-radius: 6px; border: 1px solid var(--border-color);" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Mishra Bank Freeze and Lien Solution. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- FIXED ACTION BUTTONS (BOTTOM RIGHT) -->
+  <div class="fixed-actions-right">
+    <a href="tel:886768352" class="action-btn btn-call" aria-label="Call Client">
+      <svg viewBox="0 0 32 32">
+        <path d="M27.01 23.49l-1.75 1.75a5 5 0 01-5.2 1.18c-1.97-.69-4.87-2.36-8.44-5.93S6.39 14.03 5.69 12.06a5 5 0 011.18-5.2l1.75-1.75a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.41l-1.81 1.81a1 1 0 00-.08 1.32 40.74 40.74 0 004.08 4.58 40.74 40.74 0 004.58 4.08 1 1 0 001.32-.08l1.81-1.81a1 1 0 011.41 0l2.83 2.83a1 1 0 010 1.42z"/>
+      </svg>
+    </a>
+
+    <a href="https://wa.me/91886768352?text=Hello%2C%20I%20need%20legal%20assistance%20regarding%20my%20frozen%20bank%20account." target="_blank" class="action-btn btn-whatsapp" aria-label="WhatsApp Us">
+      <svg viewBox="0 0 32 32">
+        <path d="M16 2a13 13 0 00-11 19.9L3 29l7.3-1.9A13 13 0 1016 2zm0 23.8a10.8 10.8 0 01-5.5-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4A10.8 10.8 0 1116 25.8zm5.9-8.1c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8 8 0 01-2.4-1.5 8.9 8.9 0 01-1.7-2.1c-.2-.3 0-.5.2-.6s.3-.4.5-.6a2.3 2.3 0 00.3-.5.6.6 0 000-.6c0-.2-.7-1.7-1-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.7 3.7 0 00-1.1 2.7 6.4 6.4 0 001.3 3.4 14.6 14.6 0 005.6 4.9c2.3 1 2.8.8 3.3.8a2.8 2.8 0 001.9-1.3 2.3 2.3 0 00.2-1.3c-.2-.1-.5-.2-.8-.4z"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- EMAILJS FORM SUBMISSION SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- FORM SUBMISSION SCRIPT -->
+  <script>
+    document.getElementById('leadForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const formStatus = document.getElementById('formStatus');
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Sending Request...';
+      formStatus.innerText = '';
+
+      const formData = {
+        fullName: document.getElementById('fullName').value,
+        phone: document.getElementById('phone').value,
+        bankName: document.getElementById('bankName').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          formStatus.style.color = '#e6b452';
+          formStatus.innerText = 'Thank you! Your request has been submitted successfully. Our legal team will contact you shortly.';
+          document.getElementById('leadForm').reset();
+        } else {
+          formStatus.style.color = '#ff6b6b';
+          formStatus.innerText = result.message || 'Something went wrong. Please try calling us directly.';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        formStatus.style.color = '#ff6b6b';
+        formStatus.innerText = 'Network error. Please check your connection and try again.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Submit Request';
+      }
+    });
+  </script>
+</body>
+</html>
+</file>
+
+</files>

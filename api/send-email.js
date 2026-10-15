@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405.json({ success: false, message: 'Method not allowed' }));
+    return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 
   const { fullName, phone, bankName, message } = req.body;
@@ -11,11 +11,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, message: 'Name and phone number are required.' });
   }
 
-  // Configure Nodemailer transporter using SMTP credentials from environment variables
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: Number(process.env.SMTP_PORT) || 465,
-    secure: true, // true for 465, false for other ports
+    secure: true,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -51,6 +50,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true, message: 'Email sent successfully!' });
   } catch (error) {
     console.error('SMTP Error:', error);
-    return res.status(500).json({ success: false, message: 'Failed to send email. Please try again later.' });
+    return res.status(500).json({ success: false, message: error.message || 'Failed to send email. Please try again later.' });
   }
 }
